@@ -1,0 +1,11 @@
+export default {
+    //首页轮播图
+    homecarousel:[],
+    //首页nav图
+    homenav:[],
+    //首页商品列表
+    home_goodslist:[],
+    //推荐页商品列表
+    recommend_goods:[],
+}
+
