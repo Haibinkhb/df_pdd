@@ -3,6 +3,7 @@ HOME_CAROUSEL,
 HOME_NAV,
 HOME_GOODSLIST,
 RECOMMEND_GOODS,
+SEARCH_DATA
 } from "./mutation-types"
 
 export default {
@@ -17,5 +18,8 @@ export default {
     },
     [RECOMMEND_GOODS](state,{recommend_goods}){
         state.recommend_goods = recommend_goods;
+    },
+    [SEARCH_DATA](state,{search_data}){
+        state.search_data = search_data;
     }
 }

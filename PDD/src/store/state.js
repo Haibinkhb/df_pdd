@@ -7,5 +7,7 @@ export default {
     home_goodslist:[],
     //推荐页商品列表
     recommend_goods:[],
+    //搜索页数据
+    search_data:[]
 }
 

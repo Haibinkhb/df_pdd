@@ -1,40 +1,34 @@
 <template>
   <div class="serarch">
+    
     <div class="searchTop">
-      <div class="searchTop-content">
+      <div class="searchTop-content" >
         <a class="searchTop-link">
           <i class="iconfont">&#xe708;</i>
           <span>搜索</span>
         </a>
       </div>
     </div>
-    <div class="searchContent">
+    <div class="searchContent" v-if="search_data">
       <div class="searchLeft">
         <ul class="searchLeft-content">
-          <li class="searchIteam current">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
-          <li class="searchIteam">女装</li>
+          <li class="searchIteam"
+          v-for="(search,index) in search_data" 
+          :key="index"
+          :class="{'current':clicked===index}"
+          @click="currented(index)"
+          >{{search.name}}
+          </li>
         </ul>
       </div>
       <div class="searchRight">
         <ul class="searchRigntContent">
-          <li>
+          <li
+          v-for="(searchItem,keys) in search_data"
+          :key="keys"
+          >
             <div class="searchRight-top">
-              <div class="topTitle">女装</div>
+              <div class="topTitle">{{searchItem.name}}</div>
               <div class="topMore">
                 <a href="">查看更多></a>
               </div>
@@ -44,60 +38,17 @@
             </div>
             <div class="searchRight-bottom">
               <ul class="bottomContent">
-                <li class="bottomIteam">
+                <li class="bottomIteam" 
+                v-for="(items,index2) in searchItem.items"
+                :key="index2"
+                >
+                
                   <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
+                    <img :src="items.icon" alt="">
                   </div>
-                  <span class="iteamText">冬热装</span>
+                  <span class="iteamText">{{items.title}}</span>
                 </li>
-                <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="http://t00img.yangkeduo.com/goods/images/2019-02-17/fbb13dd92e4d5be84e5b68f7162ac95c.jpeg?imageMogr2/sharpen/1%7CimageView2/2/w/1300/q/70/format/webp" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
+
               </ul>
             </div>
           </li>
@@ -119,54 +70,6 @@
                   </div>
                   <span class="iteamText">冬热装</span>
                 </li>
-                <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
-                 <li class="bottomIteam">
-                  <div class="iteamImg">
-                    <img src="./imgs/nvzhuang1.png" alt="">
-                  </div>
-                  <span class="iteamText">冬热装</span>
-                </li>
               </ul>
             </div>
           </li>
@@ -178,11 +81,26 @@
 
 <script>
 import Bscroll from 'better-scroll'
+import {mapState} from 'vuex'
 export default {
-  name: 'Search',
-  mounted(){
-    new Bscroll('.searchLeft',{})
+  
+  data(){
+    return{
+      clicked:0
+    }
   },
+  methods:{
+    currented(index){
+      this.clicked = index;
+    }
+  },
+  mounted(){
+    new Bscroll('.searchLeft',{});
+    this.$store.dispatch("req_search_data")
+  },
+  computed:{
+    ...mapState(["search_data"])
+  }
 }
 </script>
 
