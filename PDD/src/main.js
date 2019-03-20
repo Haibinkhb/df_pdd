@@ -6,6 +6,7 @@ import router from './router/index'
 import LyTab from 'ly-tab'
 import $ from 'jquery'
 import store from './store/index'
+import BScroll from 'better-scroll'
 
 Vue.use(LyTab)
 
@@ -17,6 +18,7 @@ new Vue({
   LyTab,
   store,
   $,
+  BScroll,
   components: { App },
   template: '<App/>'
 })
