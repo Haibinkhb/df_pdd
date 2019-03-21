@@ -8,7 +8,7 @@ import Search from '../pages/Search/Search.vue'
 import Chat from '../pages/Chat/Chat.vue'
 import Mine from '../pages/Mine/Mine.vue'
 
-//二级路由
+//主页板块二级路由
 import Hot from '../../src/pages/Home/Children/Hot/Hot.vue'
 import Women_s from '../../src/pages/Home/Children/Women_s.vue'
 import Underwear from '../../src/pages/Home/Children/Underwear.vue'
@@ -18,6 +18,9 @@ import S_B from '../../src/pages/Home/Children/S_B.vue'
 import Mobile from '../../src/pages/Home/Children/Mobile.vue'
 import Men_s from '../../src/pages/Home/Children/Men_s.vue'
 import Electric from '../../src/pages/Home/Children/Electric.vue'
+
+//搜索板块二级路由
+import searchBar from '../pages/Search/searchBar.vue'
 
 Vue.use(Router)
 
@@ -47,8 +50,10 @@ export default new Router({
     },
     {
       path: '/search',
-      
-      component: Search
+      component: Search,
+      children:[
+        {path:'search_bar',component:searchBar}
+      ]
     },
     {
       path: '/chat',

@@ -1,8 +1,12 @@
 <template>
+  
   <div class="serarch">
+    <router-view></router-view>
     <div class="searchTop">
       <div class="searchTop-content">
-        <a class="searchTop-link">
+        <a class="searchTop-link"
+        @click="changeRouter('/search/search_bar')"
+        >
           <i class="iconfont">&#xe708;</i>
           <span>搜索</span>
         </a>
@@ -26,7 +30,7 @@
             <div class="searchRight-top">
               <div class="topTitle">{{searchItem.name}}</div>
               <div class="topMore">
-                <a href>查看更多 ></a>
+                <a href>查看更多 > </a>
               </div>
             </div>
   
@@ -49,22 +53,28 @@
 
 <script>
 import Bscroll from "better-scroll";
+import searchBar from './searchBar'
 import { mapState } from "vuex";
 export default {
   data() {
     return {
       clicked: 0, // 选中第几个左侧栏
       rightLiOffseTop: [], //右侧每个LI的offseTop
+      leftLiOffseTop:[],//左侧每个LI的offseTop
       leftLi: [], //左侧所有的LI元素
-      rightScrollY:0 //右侧滚动条滚动的距离
+      leftBox:0,//左侧父元素高度
+      
     }
   },
   methods: {
+    changeRouter(path){
+      this.$router.replace(path);
+    },
     //左侧栏的点击
     currented(index) {
       this.clicked = index;//切换为选中样式
       //右侧滚动条跳转到相应位置
-      this.rightScroll.scrollTo(0,-this.rightLiOffseTop[index]+250, 500)
+      this.rightScroll.scrollTo(0,-this.rightLiOffseTop[index]+250,400);
     },
     //获取右侧每个LI的offseTop
     getRightLiOffseTop() {
@@ -75,19 +85,29 @@ export default {
          this.rightLiOffseTop.push(top);
        } 
     },
-    getleftLi() {
-      let leftUl = $(".searchLeft-content")[0].childNodes;
+    //获取左侧每个LI的offseTop
+    getLeftLiOffseTop() {
+      //获取左侧每个LI
+       this.leftLi = $(".searchLeft-content")[0].childNodes;
+       let tempArr = Array.from(this.leftLi);
+       for (let i = 0; i < tempArr.length; i++) {
+         let top = tempArr[i].offsetTop;
+         this.leftLiOffseTop.push(top);
+       } 
     },
+    //获取左侧父元素高度
+    getLeftBoxHeight(){
+      this.leftBox = $(".searchLeft").height();
+    }
   },
   mounted() {
     this.$store.dispatch("req_search_data");//获取数据
-    
+    this.getLeftBoxHeight();
   },
   watch:{
     search_data(){
     this.$nextTick(()=>{
-      //获取左侧每个LI
-      this.getleftLi()
+      
       //初始化滚动条
       this.leftScroll = new Bscroll(".searchLeft",{
       scrollbar: {
@@ -106,23 +126,23 @@ export default {
     })
     //获取右侧滚动条滚动的位置
     this.rightScroll.on("scroll",(pos)=>{
-      this.rightScrollY = pos.y
+      //实现左侧和右侧滚动条联动
       for(let i=0;i<this.rightLiOffseTop.length;i++){
-        if((this.rightLiOffseTop[i+1])>-this.rightScrollY
-        && this.rightLiOffseTop[i]-350<-this.rightScrollY){
-          this.leftScroll.scrollToElement(this.leftLi[i], 400)
+        if((this.rightLiOffseTop[i+1])>-pos.y
+        && this.rightLiOffseTop[i]-350<-pos.y){
+          this.leftScroll.scrollToElement(this.leftLi[i])
           this.clicked = i;
         }else if(this.rightLiOffseTop[this.rightLiOffseTop.length-2]
-        < -this.rightScrollY){
-          this.leftScroll.scrollToElement(this.leftLi[this.rightLiOffseTop.length-1], 200);
+        < -pos.y){
+          this.leftScroll.scrollToElement(this.leftLi[this.rightLiOffseTop.length-1],300);
           this.clicked = this.rightLiOffseTop.length-1
         }
-        
       }
-      
     })
     //获取右侧所有li的offsetTop
     this.getRightLiOffseTop();
+    //获取左侧所有li的offsetTop
+    this.getLeftLiOffseTop();
     })
     }
   },
