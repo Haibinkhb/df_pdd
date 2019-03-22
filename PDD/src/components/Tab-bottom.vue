@@ -63,7 +63,7 @@ export default {
       display: flex;
       height: 50px;
       width: 100%;
-      z-index: 9999 !important;
+      z-index: 999 !important;
       background-color: #fff;
     }
 

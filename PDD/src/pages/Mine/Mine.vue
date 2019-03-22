@@ -1,10 +1,16 @@
 <template>
-  <div>mine</div>
+  <div>
+    <login></login>
+  </div>
 </template>
 
 <script>
+import login from '../login/login'
 export default {
-  name: 'Mine'
+  name: 'Mine',
+  components:{
+    login,
+  }
 }
 </script>
 

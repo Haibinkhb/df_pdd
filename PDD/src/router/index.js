@@ -7,6 +7,7 @@ import Recommend from '../pages/Recommend/Recommend.vue'
 import Search from '../pages/Search/Search.vue'
 import Chat from '../pages/Chat/Chat.vue'
 import Mine from '../pages/Mine/Mine.vue'
+import Login from '../pages/login/login.vue'
 
 //主页板块二级路由
 import Hot from '../../src/pages/Home/Children/Hot/Hot.vue'
@@ -30,8 +31,9 @@ export default new Router({
       path: '/home',
       name:'home',
       component: Home,
+      meta:{showTabBootom:true},
       children:[
-        { path: 'hot',component: Hot,name:'hot'},
+        { path: 'hot',component: Hot,name:'hot',meta:{showTabBootom:true}},
         { path: 'women_s',component: Women_s},
         { path: 'underwear',component: Underwear},
         { path: 'm_b',component: M_B},
@@ -45,29 +47,35 @@ export default new Router({
     },
     {
       path: '/recommend',
-      
-      component: Recommend
+      component: Recommend,
+      meta:{showTabBootom:true}
     },
     {
       path: '/search',
       component: Search,
+      meta:{showTabBootom:true},
       children:[
         {path:'search_bar',component:searchBar}
       ]
     },
     {
       path: '/chat',
-      
-      component: Chat
+      component: Chat,
+      meta:{showTabBootom:true}
     },
     {
       path: '/mine',
-      
-      component: Mine
+      component: Mine,
+      meta:{showTabBootom:true}
+    },
+    {
+      path:'/login',
+      component: Login
     },
     {
       path: '/',
       redirect: {name:'home'}
     },
+    
   ]
 })

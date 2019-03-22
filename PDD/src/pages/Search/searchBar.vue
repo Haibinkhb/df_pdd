@@ -27,7 +27,7 @@ export default {
     .searchContainer{
         width: 100%;
         height:100%;
-        background-color: #fff;  
+        background-color: #fff;
     }
     .topBar{
         width: 100%;
