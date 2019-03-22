@@ -44,7 +44,7 @@ export default {
     }
     .loginFooter{
         width: 100%;
-        margin-top: 45%;
+        margin-top: 60%;
         height: 200px;
     }
     .footerImg{
