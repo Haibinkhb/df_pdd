@@ -8,6 +8,7 @@ import Search from '../pages/Search/Search.vue'
 import Chat from '../pages/Chat/Chat.vue'
 import Mine from '../pages/Mine/Mine.vue'
 import Login from '../pages/login/login.vue'
+import loginPanel from '../pages/login/loginPanel.vue'
 
 //主页板块二级路由
 import Hot from '../../src/pages/Home/Children/Hot/Hot.vue'
@@ -71,6 +72,10 @@ export default new Router({
     {
       path:'/login',
       component: Login
+    },
+    {
+      path:'/loginPanel',
+      component: loginPanel,
     },
     {
       path: '/',

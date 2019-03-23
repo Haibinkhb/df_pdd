@@ -1,7 +1,9 @@
 <template>
     <div class="login">
         <div class="loginTitle">选择登录方式</div>
-        <div class="phoneLogin">
+        <div class="phoneLogin" 
+        @click="changeRouter('/loginPanel')"
+        >
             <span>手机登录</span>
         </div>
         <div class="loginFooter">
@@ -16,7 +18,11 @@
 
 <script>
 export default {
-    
+    methods:{
+        changeRouter(path){
+            this.$router.replace(path);
+        }
+    }
 }
 </script>
 
