@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const svgCaptcha = require('svg-captcha');
+const sms = require('../util/sms_util');
+const md5 = require('blueimp-md5');
 
 //引入mysql
 const connection = require('../mysql/mysql')
@@ -97,5 +100,34 @@ router.get('/api/recommend', (req, res, next) => {
 router.get('/api/search',(req, res, next)=>{
   let search = require('../public/data/search.json').data;
   res.json({ successCode: 200, search})
+})
+
+router.post("/api/login",(req,res,next)=>{
+  console.log(req.session);
+  req.body
+})
+
+//获取图形验证码
+router.get("/api/getCaptcha",(req,res,next)=>{
+  let captcha = svgCaptcha.create({
+    size:4,
+    noise:3,
+    color:true,
+  })
+  req.session.captcha = captcha.text;
+  res.type("svg");
+  res.status(200).send(captcha.data);
+});
+
+//获取手机短信验证码
+router.get("/api/getPhoneCode",(req,res,next)=>{
+  let phone = req.body.phone;
+  //产生随机验证码
+  let code = sms.randomCode(6);
+  sms.sendCode(phone,code,(success)=>{
+    console.log(success);
+  })
+  console.log(code);
+  
 })
 module.exports = router;

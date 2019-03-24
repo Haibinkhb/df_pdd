@@ -9,26 +9,45 @@
           @click="chooseLogin()"
           >手机登录</div>
         </div>
-        <form action>
+        <form action="http://localhost:3000/api/login" method="post">
           <div class="userName" v-if="loginWay">
-            <label for>
-              <input type="text" placeholder="用户名">
+            <label>
+              <input type="text" placeholder="用户名" v-model="userName">
             </label>
-            <label for>
-              <input type="password" placeholder="密码">
+            <label>
+              <input type="password" placeholder="密码" v-model="password">
             </label>
-            <label for="" class="verification">
-                <input type="text" placeholder="验证码"><img src="" alt="" class="verificationImg">
+            <label class="verification">
+                <input type="text" placeholder="验证码" v-model="identifyingCode">
+                <img 
+                ref="captcha"
+                src="http://localhost:3000/api/getCaptcha" 
+                alt="" 
+                class="verificationImg"
+                @click="changeCaptcha()"
+                >
             </label>
           </div>
           <div class="phone_login" v-else-if="!loginWay">
             <label for class="phone">
-              <input type="phone" placeholder="手机号">
-              <button class="getCode">获取验证码</button>
+              <input type="phone" placeholder="手机号" v-model="phone">
+              <button
+              v-if="count === 0" 
+              class="getCode"
+              :class="{phoneRight:validatePhone}"
+              @click="sendCode"
+              >
+              获取验证码
+              </button>
+              <button disabled="disabled" v-else class="getCode">已发送({{count}}s)</button>
             </label>
             <label for>
-              <input type="tel" placeholder="验证码">
+              <input type="tel" placeholder="验证码" v-model="phoneCode">
             </label>
+          </div>
+          <div class="loginButton">
+            <button type="submit">登录</button>
+            <button @click="$router.back('/login')" >返回</button>
           </div>
         </form>
       </div>
@@ -41,12 +60,41 @@ export default {
     data(){
         return{
             loginWay:true,
+            userName:"",//用户名
+            password:"",//登录密码
+            identifyingCode:"",//验证码
+            phone:"",//手机号码
+            phoneCode:"",//手机短信验证码
+            count:0,//倒计时
         }
     },
     methods:{
-        chooseLogin(){
-            this.loginWay = ! this.loginWay;
+      //选择登录方式
+      chooseLogin(){
+          this.loginWay = ! this.loginWay;
+      },
+      //切换验证码
+      changeCaptcha(){
+        this.$refs.captcha.src = "http://localhost:3000/api/getCaptcha?time=" + new Date()
+      },
+      //获取验证码按钮的点击事件
+      sendCode(){
+        if(this.validatePhone){
+          this.count = 5;
+          let intervalId = setInterval(()=>{
+            this.count--;
+            if(this.count === 0){
+              clearInterval(intervalId);
+            }
+          },1000)
         }
+      }
+    },
+    computed:{
+      //验证手机号码是否合理
+      validatePhone(){
+        return /^[1][3,4,5,7,8,9][0-9]{9}$/.test(this.phone);
+      }
     }
 };
 </script>
@@ -161,8 +209,11 @@ export default {
     height: 80%;
     border: none;
     outline: none;
-    color: #e02e24;
+    color: #9c9c9c;
     background-color: transparent;
+}
+.phoneRight{
+  color: #e02e24 !important;
 }
 * label input:focus{
     outline: none;
