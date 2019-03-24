@@ -18,4 +18,5 @@ export const get_recommend_goods = (params)=>ajax(base_url + "/api/recommend",pa
 //请求搜索页数据
 export const get_search_data = ()=>ajax(base_url + "/api/search");
 
-
+//获取手机短信验证码
+export const get_phoneCode = (phone)=>ajax(base_url + "/api/getPhoneCode", {phone:phone})

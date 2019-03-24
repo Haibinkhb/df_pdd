@@ -7,6 +7,9 @@ const md5 = require('blueimp-md5');
 //引入mysql
 const connection = require('../mysql/mysql')
 
+let user = {};//保存用户信息
+
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -102,10 +105,6 @@ router.get('/api/search',(req, res, next)=>{
   res.json({ successCode: 200, search})
 })
 
-router.post("/api/login",(req,res,next)=>{
-  console.log(req.session);
-  req.body
-})
 
 //获取图形验证码
 router.get("/api/getCaptcha",(req,res,next)=>{
@@ -121,13 +120,15 @@ router.get("/api/getCaptcha",(req,res,next)=>{
 
 //获取手机短信验证码
 router.get("/api/getPhoneCode",(req,res,next)=>{
-  let phone = req.body.phone;
+  let phone = req.query.phone;
   //产生随机验证码
   let code = sms.randomCode(6);
-  sms.sendCode(phone,code,(success)=>{
-    console.log(success);
-  })
-  console.log(code);
+  // sms.sendCode("1856943075",code,(success)=>{
+  //   console.log(success);
+  // })
+  user[phone] = code;
+  res.status(200).send(code)
   
-})
+});
+
 module.exports = router;

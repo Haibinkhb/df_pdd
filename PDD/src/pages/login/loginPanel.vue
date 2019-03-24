@@ -9,7 +9,7 @@
           @click="chooseLogin()"
           >手机登录</div>
         </div>
-        <form action="http://localhost:3000/api/login" method="post">
+        <form action>
           <div class="userName" v-if="loginWay">
             <label>
               <input type="text" placeholder="用户名" v-model="userName">
@@ -32,10 +32,10 @@
             <label for class="phone">
               <input type="phone" placeholder="手机号" v-model="phone">
               <button
-              v-if="count === 0" 
+              v-if="!count" 
               class="getCode"
               :class="{phoneRight:validatePhone}"
-              @click="sendCode"
+              @click.prevent="sendCode"
               >
               获取验证码
               </button>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import {get_phoneCode} from "./../../api/index.js"
 export default {
     data(){
         return{
@@ -78,8 +79,12 @@ export default {
         this.$refs.captcha.src = "http://localhost:3000/api/getCaptcha?time=" + new Date()
       },
       //获取验证码按钮的点击事件
-      sendCode(){
-        if(this.validatePhone){
+      async sendCode(){
+        if(!this.validatePhone){
+            return;
+        }
+        //更改按钮样式（倒计时）
+        else if(this.validatePhone){
           this.count = 5;
           let intervalId = setInterval(()=>{
             this.count--;
@@ -88,6 +93,11 @@ export default {
             }
           },1000)
         }
+       //获取验证码
+      let phoneCode = await get_phoneCode(this.phone);
+      
+        console.log(phoneCode);
+      
       }
     },
     computed:{
@@ -206,11 +216,13 @@ export default {
 }
 .phone .getCode{
     width: 40%;
-    height: 80%;
+    height: 100%;
     border: none;
     outline: none;
     color: #9c9c9c;
     background-color: transparent;
+    text-align: center;
+    line-height: 100%;
 }
 .phoneRight{
   color: #e02e24 !important;

@@ -24,11 +24,13 @@ function ajax(url = '', params = {}, type = 'GET') {
         }
         // 3. 返回请求的结果
         promise.then((response)=>{
-            resolve(response.data)
+            resolve(response.data) 
         }).catch(error => {
            reject(error)
         })
+        
      })
+     
 }
 
 export default ajax
