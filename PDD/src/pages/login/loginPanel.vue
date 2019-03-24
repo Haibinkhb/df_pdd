@@ -46,10 +46,11 @@
             </label>
           </div>
           <div class="loginButton">
-            <button type="submit">登录</button>
-            <button @click="$router.back('/login')" >返回</button>
+            <button @click.prevent="login">登录</button>
+            
           </div>
         </form>
+        <button @click="$router.back('/login')" >返回</button>
       </div>
     </div>
   </div>
@@ -98,6 +99,27 @@ export default {
       
         console.log(phoneCode);
       
+      },
+      login(){
+        //登录模式
+        if(!this.loginWay){//手机号码登陆
+          if(!this.phone){
+            console.log("请输入手机号码");
+            return;
+          }else if(!this.validatePhone){
+            console.log("请输入正确的手机号码");
+            return
+          }else if(!this.phoneCode){
+            console.log("请输入验证码");
+            return
+          }else if(!(/^d{6}$/gi.test(this.phoneCode))){
+            console.log("请输入正确的验证码");
+            return 
+          }
+  
+        }else{
+
+        }
       }
     },
     computed:{

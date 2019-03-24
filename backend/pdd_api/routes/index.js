@@ -7,7 +7,7 @@ const md5 = require('blueimp-md5');
 //引入mysql
 const connection = require('../mysql/mysql')
 
-let user = {};//保存用户信息
+let users = {};//保存用户信息
 
 
 /* GET home page. */
@@ -20,14 +20,14 @@ router.get('/', function (req, res, next) {
 router.get('/api/goodslist', (req, res, next) => {
   //sql查询语句SELECT * FROM pdd_goodslist
   let sqlStr = "SELECT * FROM pdd_goodslist";
-  connection.query(sqlStr,function (error, results, fields) {
+  connection.query(sqlStr, function (error, results, fields) {
     if (error) throw error;
-    res.json({successCode:200,results})
+    res.json({ successCode: 200, results })
     //console.log('The solution is: ', results);
   })
-  
-  
-  
+
+
+
   // let tempArrAll = [];
   // for (let i = 0; i < recomened.length; i++) {
   //   //定义临时数组存放对应字段
@@ -43,7 +43,7 @@ router.get('/api/goodslist', (req, res, next) => {
   //   tempArr.push(recomened[i].link_url);
   //   tempArr.push(recomened[i].normal_price);
   //  
-    
+
   //   tempArr.push(recomened[i].group.price);
   //   tempArrAll.push(tempArr);
   // }
@@ -68,7 +68,7 @@ router.get('/api/homecarousel', function (req, res, next) {
 //获取首页nav
 router.get('/api/homenav', (req, res, next) => {
   let homenav = require('../public/data/homenav.json').data;
-  res.json({successCode:200,homenav})
+  res.json({ successCode: 200, homenav })
   //遍历取出iconurl
   //定义临时数据存放对应字段
   // let tempArrAll = [];
@@ -91,27 +91,27 @@ router.get('/api/recommend', (req, res, next) => {
   let count = req.query.count || 20;
   let offset = req.query.offset || 0;
   //sql查询语句SELECT * FROM pdd_goodslist
-  let sqlStr = "SELECT * FROM pdd_recommend LIMIT "+offset+","+count;
-  
-  connection.query(sqlStr,function (error, results, fields) {
+  let sqlStr = "SELECT * FROM pdd_recommend LIMIT " + offset + "," + count;
+
+  connection.query(sqlStr, function (error, results, fields) {
     if (error) throw error;
-    res.json({successCode:200,results})
+    res.json({ successCode: 200, results })
     //console.log('The solution is: ', results);
   })
 });
 //获取搜索页数据
-router.get('/api/search',(req, res, next)=>{
+router.get('/api/search', (req, res, next) => {
   let search = require('../public/data/search.json').data;
-  res.json({ successCode: 200, search})
+  res.json({ successCode: 200, search })
 })
 
 
 //获取图形验证码
-router.get("/api/getCaptcha",(req,res,next)=>{
+router.get("/api/getCaptcha", (req, res, next) => {
   let captcha = svgCaptcha.create({
-    size:4,
-    noise:3,
-    color:true,
+    size: 4,
+    noise: 3,
+    color: true,
   })
   req.session.captcha = captcha.text;
   res.type("svg");
@@ -119,16 +119,58 @@ router.get("/api/getCaptcha",(req,res,next)=>{
 });
 
 //获取手机短信验证码
-router.get("/api/getPhoneCode",(req,res,next)=>{
+router.get("/api/getPhoneCode", (req, res, next) => {
   let phone = req.query.phone;
   //产生随机验证码
   let code = sms.randomCode(6);
   // sms.sendCode("1856943075",code,(success)=>{
   //   console.log(success);
   // })
-  user[phone] = code;
+  users[phone] = code;
   res.status(200).send(code)
-  
+
 });
+
+router.post("/api/phoneCodeLogin", (req, res, next) => {
+  let phone = req.body.phone;
+  let code = req.body.code;
+  //判断验证码是否正确
+  if (users[phone] === code) {
+
+    delete users[phone];
+
+    //查询数据库中是否存在该用户
+    sqlStr = "SELECT * FROM pdd_userinfo WHERE userPhone = '" + phone + "' LIMIT 1";
+    connection.query(sqlStr, (error, results, fields) => {
+      if (error) {
+        console.log(error);
+      }
+      else {
+        if (results[0]) {
+          req.session.usersId = results[0].id
+          res.json({successCode:200,usersId:results[0].id,userName:results[0].userName,userPhone:results[0].userPhone})
+        } else {//新用户
+          //将数据插入数据库
+          sql = "INSERT INTO pdd_userinfo(userName,userPhone) VALUES (?,?)"
+          connection.query(sql, [phone, phone], (error, results, fields) => {
+            console.log(results);
+            console.log("---------------");
+            //从数据库查找用户并将数据返回给客户端
+            sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + results.insertId + "' LIMIT 1";
+            connection.query(sqlStr,(error, results, fields)=>{
+              
+              console.log(results);
+              req.session.usersId = results[0].id
+              
+              res.json({successCode:200,usersId:results[0].id,userName:results[0].userName,userPhone:results[0].userPhone})
+            })
+          })
+        }
+      }
+
+
+    })
+  }
+})
 
 module.exports = router;
