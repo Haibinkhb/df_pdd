@@ -3,7 +3,8 @@ HOME_CAROUSEL,
 HOME_NAV,
 HOME_GOODSLIST,
 RECOMMEND_GOODS,
-SEARCH_DATA
+SEARCH_DATA,
+SYNC_USER_INFO
 } from "./mutation-types"
 
 export default {
@@ -21,5 +22,8 @@ export default {
     },
     [SEARCH_DATA](state,{search_data}){
         state.search_data = search_data;
+    },
+    [SYNC_USER_INFO](state,{userInfo}){
+        state.userInfo = userInfo
     }
 }

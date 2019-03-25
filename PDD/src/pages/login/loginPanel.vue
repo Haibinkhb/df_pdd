@@ -57,7 +57,8 @@
 </template>
 
 <script>
-import {get_phoneCode} from "./../../api/index.js"
+import {get_phoneCode,phoneCodeLogin,userNameLogin} from "./../../api/index.js"
+import {mapActions} from "vuex"
 export default {
     data(){
         return{
@@ -71,6 +72,7 @@ export default {
         }
     },
     methods:{
+      ...mapActions(["syncUserInfo"]),
       //选择登录方式
       chooseLogin(){
           this.loginWay = ! this.loginWay;
@@ -100,7 +102,7 @@ export default {
         console.log(phoneCode);
       
       },
-      login(){
+      async login(){
         //登录模式
         if(!this.loginWay){//手机号码登陆
           if(!this.phone){
@@ -112,13 +114,37 @@ export default {
           }else if(!this.phoneCode){
             console.log("请输入验证码");
             return
-          }else if(!(/^d{6}$/gi.test(this.phoneCode))){
+          }else if(!(/^\d{6}$/gi.test(this.phoneCode))){
             console.log("请输入正确的验证码");
             return 
           }
-  
-        }else{
-
+          else{
+            let results = await phoneCodeLogin(this.phone,this.phoneCode);
+            console.log(results);
+            if(results.successCode !== 200){
+              console.log("登录失败");  
+            }else{
+              this.syncUserInfo(results)
+            }
+            
+          }
+        }else{//用户名&密码登录
+          if(!this.userName){
+            return
+          }else if(!this.password){
+            return
+          }else if (!this.identifyingCode){
+            return
+          }else{
+            let results = await userNameLogin(this.userName,this.password,this.identifyingCode);
+            console.log(results);
+            
+            if(results.successCode !== 200){
+              console.log("登录失败");
+            }else{
+              this.syncUserInfo(results)
+            }
+          }
         }
       }
     },

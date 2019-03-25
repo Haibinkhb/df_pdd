@@ -1,7 +1,7 @@
 import ajax from './ajax'
 
 //定义一个基础路径
-const base_url = "http://127.0.0.1:3000";
+const base_url = "/api";
 
 //请求首页轮播图
 export const get_homecarousel = ()=>ajax(base_url + "/api/homecarousel");
@@ -19,4 +19,10 @@ export const get_recommend_goods = (params)=>ajax(base_url + "/api/recommend",pa
 export const get_search_data = ()=>ajax(base_url + "/api/search");
 
 //获取手机短信验证码
-export const get_phoneCode = (phone)=>ajax(base_url + "/api/getPhoneCode", {phone:phone})
+export const get_phoneCode = (phone)=>ajax(base_url + "/api/getPhoneCode", {phone:phone});
+
+//手机验证码登录
+export const phoneCodeLogin = (phone,code)=>ajax(base_url + "/api/phoneCodeLogin",{phone,code},'POST');
+
+//用户名密码登录
+export const userNameLogin = (userName,password,identifyingCode)=>ajax(base_url + "/api/userNameLogin",{userName,password,identifyingCode},'POST');

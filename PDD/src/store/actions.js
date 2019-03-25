@@ -3,7 +3,8 @@ import {
     HOME_NAV,
     HOME_GOODSLIST,
     RECOMMEND_GOODS,
-    SEARCH_DATA
+    SEARCH_DATA,
+    SYNC_USER_INFO
 }from "./mutation-types"
 
 
@@ -36,5 +37,9 @@ export default {
     async req_search_data({commit}){
         let data = await get_search_data();
         commit(SEARCH_DATA,{search_data:data.search})
+    },
+    //同步用户信息（手机登录）
+     syncUserInfo({commit},userInfo){
+        commit(SYNC_USER_INFO,{userInfo})
     },
 }

@@ -130,7 +130,7 @@ router.get("/api/getPhoneCode", (req, res, next) => {
   res.status(200).send(code)
 
 });
-
+//手机验证码登录
 router.post("/api/phoneCodeLogin", (req, res, next) => {
   let phone = req.body.phone;
   let code = req.body.code;
@@ -153,8 +153,6 @@ router.post("/api/phoneCodeLogin", (req, res, next) => {
           //将数据插入数据库
           sql = "INSERT INTO pdd_userinfo(userName,userPhone) VALUES (?,?)"
           connection.query(sql, [phone, phone], (error, results, fields) => {
-            console.log(results);
-            console.log("---------------");
             //从数据库查找用户并将数据返回给客户端
             sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + results.insertId + "' LIMIT 1";
             connection.query(sqlStr,(error, results, fields)=>{
@@ -170,6 +168,47 @@ router.post("/api/phoneCodeLogin", (req, res, next) => {
 
 
     })
+  }
+});
+
+//用户名密码登录
+router.post("/api/userNameLogin",(req, res, next)=>{
+  let userName = req.body.userName;
+  let userPassword = md5(req.body.userPassword);
+  let identifyingCode = req.body.identifyingCode;
+  //判断图形验证码是否正确
+  if(req.session.captcha.toLowerCase() !== identifyingCode.toLowerCase()){
+    console.log("验证码错误");
+    return 
+  }else{
+    delete req.session.captcha;
+     //查询数据库中是否存在该用户
+     sqlStr = "SELECT * FROM pdd_userinfo WHERE userName = '" + userName + "' LIMIT 1";
+     connection.query(sqlStr, (error, results, fields) => {
+        if(results[0]){//存在（老用户）
+          //验证密码是否正确
+          if(userPassword != results[0].userPass){
+            console.log("密码错误");
+            return
+          }else{
+            //将数据返回给客户端
+            req.session.usersId = results[0].id
+            res.json({successCode:200,usersId:results[0].id,userName:results[0].userName})
+          }
+        }else {//新用户
+          //将数据插入数据库
+          sql = "INSERT INTO pdd_userinfo(userName,userPass) VALUES (?,?)"
+          connection.query(sql, [userName, userPassword], (error, results, fields) => {
+            //从数据库查找用户并将数据返回给客户端
+            sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + results.insertId + "' LIMIT 1";
+            connection.query(sqlStr,(error, results, fields)=>{
+              console.log(results);
+              req.session.usersId = results[0].id
+              res.json({successCode:200,usersId:results[0].id,userName:results[0].userName})
+            })
+          })
+        }
+     })
   }
 })
 

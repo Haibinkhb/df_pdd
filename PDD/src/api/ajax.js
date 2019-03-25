@@ -5,7 +5,7 @@ function ajax(url = '', params = {}, type = 'GET') {
      let promise;
      return new Promise((resolve, reject)=>{
         // 2. 判断请求的方式
-        if('GET' === type){
+        if(type.toUpperCase() === 'GET'){
               // 2.1 拼接请求字符串
               let paramsStr = '';
               Object.keys(params).forEach(key =>{
@@ -19,7 +19,7 @@ function ajax(url = '', params = {}, type = 'GET') {
               url += '?' + paramsStr;
               // 2.4 发送get请求
               promise = axios.get(url)
-        }else if('POST' === type){
+        }else if(type.toUpperCase() === "POST"){
               promise = axios.post(url, params)
         }
         // 3. 返回请求的结果

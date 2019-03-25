@@ -8,6 +8,8 @@ export default {
     //推荐页商品列表
     recommend_goods:[],
     //搜索页数据
-    search_data:[]
+    search_data:[],
+    //用户信息
+    userInfo:[]
 }
 
