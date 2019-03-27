@@ -1,17 +1,24 @@
 <template>
-  <div class="mine">
-    <loginPanel></loginPanel>
+  <div class="mine" >
+    <div v-if="userInfo.usersId">
+      mine
+    </div>
+    <login v-else></login>
   </div>
+  
+ 
 </template>
 
 <script>
 import login from '../login/login'
-import loginPanel from '../login/loginPanel'
+import{mapState} from 'vuex'
 export default {
   name: 'Mine',
   components:{
     login,
-    loginPanel
+  },
+  computed:{
+    ...mapState(["userInfo"])
   }
 }
 </script>
@@ -21,4 +28,5 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 </style>

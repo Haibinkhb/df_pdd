@@ -30,12 +30,15 @@ export default {
     .login{
         width: 100%;
         height: 100%;
-        background-color: #fff;
+        background-color: #ccc;
+        z-index: 100;
+        position: fixed;
+        top: 0;
+        left: 0;
     }
     .loginTitle{
         text-align: center;
         color: #151516;
-        margin: 45% auto 50px auto;
         font-size: 20px;
     }
     .phoneLogin{
@@ -50,7 +53,6 @@ export default {
     }
     .loginFooter{
         width: 100%;
-        margin-top: 60%;
         height: 200px;
     }
     .footerImg{

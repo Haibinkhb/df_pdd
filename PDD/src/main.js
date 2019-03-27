@@ -8,7 +8,9 @@ import $ from 'jquery'
 import store from './store/index'
 import BScroll from 'better-scroll'
 
-Vue.use(LyTab)
+ 
+Vue.use(LyTab);
+
 
 
 /* eslint-disable no-new */

@@ -110,8 +110,9 @@ router.get('/api/search', (req, res, next) => {
 router.get("/api/getCaptcha", (req, res, next) => {
   let captcha = svgCaptcha.create({
     size: 4,
-    noise: 3,
+    noise: 1,
     color: true,
+    ignoreChars: '0o1i'
   })
   req.session.captcha = captcha.text;
   res.type("svg");
@@ -156,10 +157,7 @@ router.post("/api/phoneCodeLogin", (req, res, next) => {
             //从数据库查找用户并将数据返回给客户端
             sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + results.insertId + "' LIMIT 1";
             connection.query(sqlStr,(error, results, fields)=>{
-              
-              console.log(results);
               req.session.usersId = results[0].id
-              
               res.json({successCode:200,usersId:results[0].id,userName:results[0].userName,userPhone:results[0].userPhone})
             })
           })
@@ -168,17 +166,19 @@ router.post("/api/phoneCodeLogin", (req, res, next) => {
 
 
     })
+  }else{
+    res.json({errorCode:1,meessage:"验证码错误"})
   }
 });
 
 //用户名密码登录
 router.post("/api/userNameLogin",(req, res, next)=>{
-  let userName = req.body.userName;
+  let userName = req.body.userName; 
   let userPassword = md5(req.body.userPassword);
   let identifyingCode = req.body.identifyingCode;
   //判断图形验证码是否正确
   if(req.session.captcha.toLowerCase() !== identifyingCode.toLowerCase()){
-    console.log("验证码错误");
+    res.json({errorCode:1,meessage:"验证码错误"})
     return 
   }else{
     delete req.session.captcha;
@@ -188,7 +188,7 @@ router.post("/api/userNameLogin",(req, res, next)=>{
         if(results[0]){//存在（老用户）
           //验证密码是否正确
           if(userPassword != results[0].userPass){
-            console.log("密码错误");
+            res.json({errorCode:1,meessage:"密码错误"})
             return
           }else{
             //将数据返回给客户端
@@ -197,12 +197,15 @@ router.post("/api/userNameLogin",(req, res, next)=>{
           }
         }else {//新用户
           //将数据插入数据库
-          sql = "INSERT INTO pdd_userinfo(userName,userPass) VALUES (?,?)"
-          connection.query(sql, [userName, userPassword], (error, results, fields) => {
+          addsql = "INSERT INTO pdd_userinfo(userName,userPass) VALUES (?,?)"
+          connection.query(addsql, [userName, userPassword], (error, results, fields) => {
             //从数据库查找用户并将数据返回给客户端
             sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + results.insertId + "' LIMIT 1";
             connection.query(sqlStr,(error, results, fields)=>{
-              console.log(results);
+              if(userPassword != results[0].userPass){
+                res.json({errorCode:1,meessage:"密码错误"})
+                return
+              }
               req.session.usersId = results[0].id
               res.json({successCode:200,usersId:results[0].id,userName:results[0].userName})
             })
@@ -212,4 +215,26 @@ router.post("/api/userNameLogin",(req, res, next)=>{
   }
 })
 
+//获取用户信息
+router.get("/api/getUserInfo",(req,res,next)=>{
+  userId = req.session.usersId;
+  //从数据库查找用户并将数据返回给客户端
+  sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + userId + "' LIMIT 1";
+  connection.query(sqlStr,(error, results, fields)=>{
+    if(error){
+      
+      res.json({errorCode:1,meessage:"请求数据失败"})
+    }else{
+    console.log(results);
+    if(!results[0]){
+      delete req.session.usersId;
+      res.json({errorCode:1,meessage:"请登录"})
+      return
+    }else{
+      res.json({successCode:200,usersId:results[0].id,userName:results[0].userName,userPhone:results[0].userPhone})
+    }
+    
+  }
+  })
+})
 module.exports = router;

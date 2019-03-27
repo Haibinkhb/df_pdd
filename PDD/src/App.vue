@@ -2,7 +2,6 @@
   <div id="app">
     <router-view />
     <tabBottom v-if="this.$route.meta.showTabBootom"></tabBottom>
-    
   </div>
 </template>
 
@@ -13,8 +12,10 @@ export default {
   name: 'App',
   components: {
     tabBottom,
-  }
- 
+  },
+  created() {
+    this.$store.dispatch("getUserInfo")
+  },
 }
 </script>
 

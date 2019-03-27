@@ -8,7 +8,7 @@ import {
 }from "./mutation-types"
 
 
-import { get_homecarousel,get_homenav, get_goodslist,get_recommend_goods,get_search_data} from "../api/index"
+import { get_homecarousel,get_homenav, get_goodslist,get_recommend_goods,get_search_data,getUserInfo} from "../api/index"
 // import {} from "../api/index"
 // import {} from "../api/index"
 
@@ -42,4 +42,11 @@ export default {
      syncUserInfo({commit},userInfo){
         commit(SYNC_USER_INFO,{userInfo})
     },
+    //获取用户信息
+    async getUserInfo({commit}){
+         let userInfo = await getUserInfo();
+        console.log(userInfo);
+        commit(SYNC_USER_INFO,{userInfo})
+    }
+
 }

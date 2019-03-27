@@ -26,3 +26,6 @@ export const phoneCodeLogin = (phone,code)=>ajax(base_url + "/api/phoneCodeLogin
 
 //用户名密码登录
 export const userNameLogin = (userName,password,identifyingCode)=>ajax(base_url + "/api/userNameLogin",{userName,password,identifyingCode},'POST');
+
+//获取用户信息
+export const getUserInfo = ()=>ajax(base_url + "/api/getUserInfo");

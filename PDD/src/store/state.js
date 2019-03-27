@@ -10,6 +10,6 @@ export default {
     //搜索页数据
     search_data:[],
     //用户信息
-    userInfo:[]
+    userInfo:{}
 }
 
