@@ -55,5 +55,7 @@ export default {
     top: 0;
     z-index: 998 !important;
     font-size: 16px;
+    max-width: 375px;
+    max-height: 667px;
   }
 </style>

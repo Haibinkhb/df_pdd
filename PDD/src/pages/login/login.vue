@@ -30,7 +30,6 @@ export default {
     .login{
         width: 100%;
         height: 100%;
-        background-color: #ccc;
         z-index: 100;
         position: fixed;
         top: 0;
@@ -40,6 +39,7 @@ export default {
         text-align: center;
         color: #151516;
         font-size: 20px;
+        margin-top: 100px;
     }
     .phoneLogin{
         width: 70%;
@@ -50,10 +50,12 @@ export default {
         line-height: 45px;
         color: #fff;
         margin-left: 15%;
+        margin-top: 100px;
     }
     .loginFooter{
         width: 100%;
         height: 200px;
+        margin-top: 160px;
     }
     .footerImg{
         width: 140px;
@@ -66,6 +68,7 @@ export default {
         width: 100%;
         text-align: center;
         color: #9c9c9c;
+        margin-top: 20px;
     }
     .footerInsurance span{
        font-size: 14px; 

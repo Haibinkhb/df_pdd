@@ -110,6 +110,7 @@ export default {
       
       //初始化滚动条
       this.leftScroll = new Bscroll(".searchLeft",{
+      scrollY:true,
       scrollbar: {
         fade: true,
         interactive: false // 1.8.0 新增
@@ -182,15 +183,17 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
+  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  max-width: 375px;
+  max-height: 667px;
 }
 .searchTop {
   border-bottom: 1px solid #ddd;
   width: 100%;
   height: 10%;
-  
   background-color: #fff;
   z-index: 998;
   box-sizing: border-box;
@@ -233,10 +236,10 @@ export default {
   background-color: rgb(250, 250, 250) !important;
   z-index: 997;
   overflow: hidden;
-  margin-bottom: 60px;
+  font-size: 14px;  
 }
 .searchLeft > .searchLeft-content {
-  overflow-y: scroll;
+  /* padding-bottom: 30px; */
   display: flex;
   flex-direction: column;
   background-color: rgb(250, 250, 250);

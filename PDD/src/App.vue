@@ -21,8 +21,7 @@ export default {
 
 <style>
   #app {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
     position:relative;
     background-color: #f5f5f5;
     margin-bottom: 60px;

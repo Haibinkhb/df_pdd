@@ -19,7 +19,6 @@
               <img
                 ref="captcha"
                 src="http://localhost:3000/api/getCaptcha"
-                alt
                 class="verificationImg"
                 @click="changeCaptcha()"
               >
@@ -37,14 +36,15 @@
               <button disabled="disabled" v-else class="getCode">已发送({{count}}s)</button>
             </label>
             <label for>
-              <input type="tel" placeholder="验证码" v-model="phoneCode">
+              <input class="phoneCode" type="tel" placeholder="验证码" v-model="phoneCode">
             </label>
           </div>
           <div class="loginButton">
-            <button @click.prevent="login">登录</button>
+            <button class="login_button" @click.prevent="login">登录</button>
+            <button class="back_button" @click="$router.back('/login')">返回</button>
           </div>
         </form>
-        <button @click="$router.back('/login')">返回</button>
+        
       </div>
     </div>
   </div>
@@ -223,71 +223,80 @@ export default {
 
 <style>
 .searchPanel {
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f4f4f4;
   z-index: 10;
 }
 .chooseMode {
   width: 100%;
-  height: 50%;
-  /* margin: 150px auto 0 auto; */
 }
 .content {
+  font-style: normal;
+  font-size: 18px;
   width: 100%;
   height: 100%;
 }
 .contentTop {
   width: 100%;
-  height: 40px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 40px;
+  color: #9c9c9c;
+  padding-top: 3vh;
 }
 .contentTop div {
-  width: 40%;
+  line-height: 30px;
+  width: 50%;
   height: 100%;
-  border-bottom: 1px solid #767676;
   text-align: center;
 }
 .choose {
-  border-bottom: 2px solid #e02e24 !important;
   color: #e02e24;
+  font-weight: bolder;
 }
 .userName {
-  height: 150px;
-  width: 80%;
-  margin: 30px auto;
+  width: 100vw;
+  margin: 3vh 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #767676;
+  background-color: #fff;
+   border: 1px solid #e6e6e6;
+   border-left: none;
 }
 .userName label {
-  flex: 1;
   width: 100%;
-  border-bottom: 1px solid #767676;
+  padding-left: 8vw;
+  height: 8vh;
 }
 .userName label input {
-  border: none;
   width: 100%;
   height: 100%;
-  padding-left: 15px;
-  box-sizing: border-box;
+  border: none;
+  font-size: 18px;
+  border-bottom: 1px solid #e6e6e6;
+  outline: none;
 }
 .userName .verification {
   display: flex;
   border: none;
 }
 .userName .verification input {
-  width: 60%;
+  outline: none;
+  border: none;
+ height: 100%;
+ width: 60%;
 }
 .userName .verification img {
-  width: 40%;
+  height: 100%;
+ width: 40%;
   height: 100%;
   margin: 0;
+  border: none;
 }
 .phone_login {
   width: 80%;
@@ -306,15 +315,16 @@ export default {
   height: 50%;
   border-bottom: 1px solid #767676;
 }
-.phone_login:last-child {
-  border-bottom: none;
-}
+
 .phone_login label input {
   width: 100%;
   height: 100%;
   border: none;
   padding-left: 15px;
   box-sizing: border-box;
+}
+.phone_login .phoneCode{
+  border-bottom: none;
 }
 .phone {
   display: flex;
@@ -335,6 +345,33 @@ export default {
 }
 .phoneRight {
   color: #e02e24 !important;
+}
+.loginButton{
+  width: 100vw;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login_button{
+  margin-bottom: 3vh;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: #fff;
+  width: 80%;
+  height: 6vh;
+  background-color: #e02e24;
+}
+.back_button{
+  width: 80%;
+  height: 6vh;
+  font-size: 16px;
+  border: 1px solid #e02e24;
+  outline: none;
+  color: #e02e24;
+  background-color: #fff;
 }
 * label input:focus {
   outline: none;
