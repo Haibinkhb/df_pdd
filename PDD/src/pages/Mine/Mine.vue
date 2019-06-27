@@ -1,7 +1,9 @@
 <template>
   <div class="mine" >
     <div v-if="userInfo.usersId">
-      mine
+      <div>
+        <button @click="quit()">退出登陆</button>
+      </div>
     </div>
     <loginPanel v-else></loginPanel>
   </div>
@@ -19,6 +21,11 @@ export default {
   },
   computed:{
     ...mapState(["userInfo"])
+  },
+  methods:{
+    quit(){
+      this.$store.state.userInfo.usersId = "";
+    }
   }
 }
 </script>

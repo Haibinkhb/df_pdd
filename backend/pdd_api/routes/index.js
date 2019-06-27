@@ -62,7 +62,6 @@ router.get('/api/homecarousel', function (req, res, next) {
   let homecarousel = require('../public/data/homecasual.json').data;
   //console.log(homecarousel);
   res.json({ successCode: 200, homecarousel })
-
 });
 
 //获取首页nav
@@ -178,6 +177,7 @@ router.post("/api/userNameLogin",(req, res, next)=>{
   let identifyingCode = req.body.identifyingCode;
   //判断图形验证码是否正确
   if(req.session.captcha.toLowerCase() !== identifyingCode.toLowerCase()){
+    console.log("11111");
     res.json({errorCode:1,meessage:"验证码错误"})
     return 
   }else{
@@ -199,6 +199,8 @@ router.post("/api/userNameLogin",(req, res, next)=>{
           //将数据插入数据库
           addsql = "INSERT INTO pdd_userinfo(userName,userPass) VALUES (?,?)"
           connection.query(addsql, [userName, userPassword], (error, results, fields) => {
+            console.log(results);
+            
             //从数据库查找用户并将数据返回给客户端
             sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + results.insertId + "' LIMIT 1";
             connection.query(sqlStr,(error, results, fields)=>{

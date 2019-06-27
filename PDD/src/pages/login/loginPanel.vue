@@ -252,9 +252,11 @@ export default {
   width: 50%;
   height: 100%;
   text-align: center;
+  padding-bottom: 1vh;
 }
 .choose {
   color: #e02e24;
+  border-bottom: 1px solid #e02e24;
   font-weight: bolder;
 }
 .userName {
@@ -299,29 +301,29 @@ export default {
   border: none;
 }
 .phone_login {
-  width: 80%;
-  height: 100px;
-  margin: 30px auto 0 auto;
+  width: 100vw;
+  margin: 3vh 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #767676;
   background-color: #fff;
-  z-index: 100;
+   border: 1px solid #e6e6e6;
+   border-left: none;
 }
 .phone_login label {
-  width: 100%;
-  height: 50%;
-  border-bottom: 1px solid #767676;
+ width: 100%;
+  padding-left: 8vw;
+  height: 8vh;
 }
 
 .phone_login label input {
   width: 100%;
   height: 100%;
   border: none;
-  padding-left: 15px;
-  box-sizing: border-box;
+  font-size: 18px;
+  border-bottom: 1px solid #e6e6e6;
+  outline: none;
 }
 .phone_login .phoneCode{
   border-bottom: none;
@@ -334,6 +336,7 @@ export default {
   height: 100%;
 }
 .phone .getCode {
+  font-size: 14px;
   width: 40%;
   height: 100%;
   border: none;

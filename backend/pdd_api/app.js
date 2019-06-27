@@ -3,7 +3,8 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-const session = require('express-session')
+const session = require('express-session');
+
 
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   secret :  'khb', // 对session id 相关的cookie 进行签名
     cookie : {maxAge : 1000 * 60 * 60 * 24}, // 设置 session 的有效时间，单位毫秒},
