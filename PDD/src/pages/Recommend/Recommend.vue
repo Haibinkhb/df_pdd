@@ -36,8 +36,8 @@ import $ from "jquery";//引入jquery...
 export default {
   data() {
     return {
-      offset:0,//数据请求条件（从第几行开始）
-      count:8,//数据请求条件（加载多少条）
+      offset:"",//数据请求条件（从第几行开始）
+      count:"",//数据请求条件（加载多少条）
       params:{},//数据请求条件对像（传给函数）
       goods_list_height:"",//当前页面高度
     };

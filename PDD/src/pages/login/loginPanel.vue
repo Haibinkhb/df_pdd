@@ -366,6 +366,7 @@ export default {
   width: 80%;
   height: 6vh;
   background-color: #e02e24;
+  border-radius: 4px;
 }
 .back_button{
   width: 80%;
@@ -375,6 +376,7 @@ export default {
   outline: none;
   color: #e02e24;
   background-color: #fff;
+  border-radius: 4px;
 }
 * label input:focus {
   outline: none;

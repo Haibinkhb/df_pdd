@@ -1,8 +1,8 @@
 <template>
   <div class="mine" >
     <div v-if="userInfo.usersId">
-      <div>
-        <button @click="quit()">退出登陆</button>
+      <div class="quit_box">
+        <button class="quit_button" @click="quit()">退出登陆</button>
       </div>
     </div>
     <loginPanel v-else></loginPanel>
@@ -35,6 +35,22 @@ export default {
   background-color: #f4f4f4;
   width: 100%;
   height: 100%;
+}
+.quit_box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+.quit_button{
+  width: 80%;
+  height: 6vh;
+  outline: none;
+  border: none;
+  background-color: #e02e24;
+  color: #fff;
+  margin-top: 80vh;
+  border-radius: 4px;
 }
 
 </style>
