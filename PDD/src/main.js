@@ -7,6 +7,9 @@ import LyTab from 'ly-tab'
 import $ from 'jquery'
 import store from './store/index'
 import BScroll from 'better-scroll'
+import VueScroller from 'vue-scroller'
+
+Vue.use(VueScroller)
 
  
 Vue.use(LyTab);
@@ -21,6 +24,7 @@ new Vue({
   store,
   $,
   BScroll,
+  VueScroller,
   components: { App },
   template: '<App/>'
 })

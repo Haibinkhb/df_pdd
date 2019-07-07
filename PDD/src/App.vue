@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <tabBottom v-if="this.$route.meta.showTabBootom"></tabBottom>
   </div>
 </template>
@@ -22,9 +24,10 @@ export default {
 <style>
   #app {
     width: 100vw;
+    max-height: 100vh;
     position:relative;
     background-color: #f5f5f5;
-    margin-bottom: 60px;
+    padding-bottom: 60px;
     box-sizing: border-box;
   }
 </style>

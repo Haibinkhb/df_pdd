@@ -18,7 +18,7 @@
               <input type="text" placeholder="验证码" v-model="identifyingCode">
               <img
                 ref="captcha"
-                src="http://localhost:3000/api/getCaptcha"
+                src="http://139.155.126.152:3000/api/getCaptcha"
                 class="verificationImg"
                 @click="changeCaptcha()"
               >
@@ -83,7 +83,7 @@ export default {
     //切换验证码
     changeCaptcha() {
       this.$refs.captcha.src =
-        "http://localhost:3000/api/getCaptcha?time=" + new Date();
+        "http://139.155.126.152:3000/api/getCaptcha?time=" + new Date();
     },
     //获取验证码按钮的点击事件
     async sendCode() {

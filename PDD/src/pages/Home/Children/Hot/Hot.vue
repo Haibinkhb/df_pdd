@@ -1,6 +1,5 @@
 <template>
   <div class="hot">
-      
     <div class="swiper-container">
         <!-- {{homecarousel}} -->
       <div class="swiper-wrapper" v-if="homecarousel.length">

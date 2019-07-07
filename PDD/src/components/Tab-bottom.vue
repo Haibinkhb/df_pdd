@@ -60,13 +60,13 @@ export default {
     .tab-bottom{
       position: fixed;
       bottom: 0;
+      right: 0;
       display: flex;
       height: 50px;
+      min-height: 50px;
       width: 100%;
       z-index: 10;
       background-color: #fff;
-      max-width: 375px;
-      max-height: 667px;
     }
 
     .content{

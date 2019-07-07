@@ -7,7 +7,7 @@ const base_url = "/api";
 export const get_homecarousel = ()=>ajax(base_url + "/api/homecarousel");
 
 //请求首页导nav图
-export const get_homenav = ()=>ajax(base_url + "/api/homenav");
+export const get_homenav = ()=>ajax("http://139.155.126.152:3000" + "/api/homenav");
 
 //请求首页商品列表
 export const get_goodslist = ()=>ajax(base_url + "/api/goodslist");

@@ -53,9 +53,9 @@ export default {
   .fixd{
     position: fixed;
     top: 0;
+    right: 0;
     z-index: 998 !important;
     font-size: 16px;
-    max-width: 375px;
-    max-height: 667px;
+    width: 100%;
   }
 </style>

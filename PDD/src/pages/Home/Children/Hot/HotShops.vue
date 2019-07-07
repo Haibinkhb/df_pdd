@@ -80,7 +80,6 @@ export default {
 .shopItem {
   background-color: #fff;
   margin: 5px;
-
   list-style: none;
 }
 #toShopA {
