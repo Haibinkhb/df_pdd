@@ -33,7 +33,7 @@ export default {
 <style>
 .mine{
   background-color: #f4f4f4;
-  width: 100%;
+  width: 100vw;
   height: 100%;
 }
 .quit_box{
@@ -49,7 +49,6 @@ export default {
   border: none;
   background-color: #e02e24;
   color: #fff;
-  margin-top: 80vh;
   border-radius: 4px;
 }
 

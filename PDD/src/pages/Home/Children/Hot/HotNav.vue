@@ -148,9 +148,10 @@ export default {
   width: 100%;
   background-color: #fff;
   z-index: 1;
+  position: relative;
 }
 .nav-content {
-  position: relative;
+ 
   height: 100%;
   overflow: hidden;
 }

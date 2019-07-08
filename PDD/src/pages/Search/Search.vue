@@ -26,7 +26,7 @@
       </div>
       <div class="searchRight">
         <ul class="searchRigntContent">
-          <li v-for="(searchItem,keys) in search_data" :key="keys">
+          <li class="contentList" v-for="(searchItem,keys) in search_data" :key="keys">
             <div class="searchRight-top">
               <div class="topTitle">{{searchItem.name}}</div>
               <div class="topMore">
@@ -63,7 +63,7 @@ export default {
       leftLiOffseTop:[],//左侧每个LI的offseTop
       leftLi: [], //左侧所有的LI元素
       leftBox:0,//左侧父元素高度
-      
+
     }
   },
   methods: {
@@ -107,7 +107,6 @@ export default {
   watch:{
     search_data(){
     this.$nextTick(()=>{
-      
       //初始化滚动条
       this.leftScroll = new Bscroll(".searchLeft",{
       scrollY:true,
@@ -187,22 +186,25 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 375px;
-  max-height: 667px;
 }
 .searchTop {
   border-bottom: 1px solid #ddd;
-  width: 100%;
-  height: 10%;
+  width: 100vw;
+  height: 8vh;
   background-color: #fff;
   z-index: 998;
   box-sizing: border-box;
-  padding: 3% 5% 3% 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.searchTop > .searchTop-content {
+.searchTop .searchTop-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 8px;
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 80%;
   background-color: #f1f1f1;
   text-align: center;
 }
@@ -281,6 +283,9 @@ export default {
   list-style: none;
   width: 100%;
 }
+.searchRigntContent .contentList:last-child{
+  padding-bottom: 50vh;
+}
 .searchRigntContent li {
   list-style: none;
   width: 100%;
@@ -298,7 +303,6 @@ export default {
 .searchRight-top .topTitle {
   padding-left: 20px;
   font-weight: lighter;
-  
 }
 .searchRight-top .topMore {
   padding-right: 10px;
@@ -331,7 +335,6 @@ export default {
   display: relative;
   display: block;
   width: 33%;
-  height: 83px;
   margin-bottom: 16px;
 }
 .iteamImg {

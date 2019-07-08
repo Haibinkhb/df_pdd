@@ -224,7 +224,6 @@ export default {
 <style>
 .searchPanel {
   width: 100vw;
-  height: 100vh;
   background-color: #f4f4f4;
   z-index: 10;
 }
@@ -234,8 +233,9 @@ export default {
 .content {
   font-style: normal;
   font-size: 18px;
-  width: 100%;
-  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
 }
 .contentTop {
   width: 100%;
@@ -245,14 +245,14 @@ export default {
   align-items: center;
   line-height: 40px;
   color: #9c9c9c;
-  padding-top: 3vh;
+  margin-top: 3vh;
+  background-color: #fff;
 }
 .contentTop div {
   line-height: 30px;
   width: 50%;
   height: 100%;
   text-align: center;
-  padding-bottom: 1vh;
 }
 .choose {
   color: #e02e24;

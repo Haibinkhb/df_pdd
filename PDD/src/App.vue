@@ -27,7 +27,9 @@ export default {
     max-height: 100vh;
     position:relative;
     background-color: #f5f5f5;
-    padding-bottom: 60px;
     box-sizing: border-box;
   }
+  .mescroll-totop{
+  display: none;
+}
 </style>
