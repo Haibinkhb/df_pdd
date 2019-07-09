@@ -1,44 +1,47 @@
 <template>
-  
   <div class="serarch">
     <router-view></router-view>
     <div class="searchTop">
       <div class="searchTop-content">
-        <a class="searchTop-link"
-        @click="changeRouter('/search/search_bar')"
-        >
+        <a class="searchTop-link" @click="changeRouter('/search/search_bar')">
           <i class="iconfont">&#xe708;</i>
           <span>搜索</span>
         </a>
       </div>
     </div>
     <div class="searchContent" v-if="search_data">
-      <div class="searchLeft">
+      <div class="searchLeft" ref="leftWrapper">
         <ul class="searchLeft-content">
           <li
             class="searchIteam"
             v-for="(search,index) in search_data"
             :key="index"
             :class="{'current':clicked===index}"
-            @click="currented(index)"
+            v-on:click="currented(index)"
+            ref="leftLi"
           >{{search.name}}</li>
         </ul>
       </div>
-      <div class="searchRight">
+      <div class="searchRight" ref="rightWrapper">
         <ul class="searchRigntContent">
-          <li class="contentList" v-for="(searchItem,keys) in search_data" :key="keys">
+          <li
+            class="contentList"
+            ref="rightLi"
+            v-for="(searchItem,keys) in search_data"
+            :key="keys"
+          >
             <div class="searchRight-top">
               <div class="topTitle">{{searchItem.name}}</div>
               <div class="topMore">
-                <a href>查看更多 > </a>
+                <a href>查看更多 ></a>
               </div>
             </div>
-  
+
             <div class="searchRight-bottom">
               <ul class="bottomContent">
                 <li class="bottomIteam" v-for="(items,index2) in searchItem.items" :key="index2">
                   <div class="iteamImg">
-                    <img :src="items.icon" alt>
+                    <img :src="items.icon" alt />
                   </div>
                   <span class="iteamText">{{items.title}}</span>
                 </li>
@@ -53,102 +56,83 @@
 
 <script>
 import Bscroll from "better-scroll";
-import searchBar from './searchBar'
+import searchBar from "./searchBar";
 import { mapState } from "vuex";
 export default {
   data() {
     return {
-      clicked: 0, // 选中第几个左侧栏
-      rightLiOffseTop: [], //右侧每个LI的offseTop
-      leftLiOffseTop:[],//左侧每个LI的offseTop
-      leftLi: [], //左侧所有的LI元素
-      leftBox:0,//左侧父元素高度
-
-    }
-  },
-  methods: {
-    changeRouter(path){
-      this.$router.replace(path);
-    },
-    //左侧栏的点击
-    currented(index) {
-      this.clicked = index;//切换为选中样式
-      //右侧滚动条跳转到相应位置
-      this.rightScroll.scrollTo(0,-this.rightLiOffseTop[index]+250,400);
-    },
-    //获取右侧每个LI的offseTop
-    getRightLiOffseTop() {
-      let rightUl = $(".searchRigntContent")[0].childNodes;
-       let tempArr = Array.from(rightUl);
-       for (let i = 0; i < tempArr.length; i++) {
-         let top = tempArr[i].offsetTop;
-         this.rightLiOffseTop.push(top);
-       } 
-    },
-    //获取左侧每个LI的offseTop
-    getLeftLiOffseTop() {
-      //获取左侧每个LI
-       this.leftLi = $(".searchLeft-content")[0].childNodes;
-       let tempArr = Array.from(this.leftLi);
-       for (let i = 0; i < tempArr.length; i++) {
-         let top = tempArr[i].offsetTop;
-         this.leftLiOffseTop.push(top);
-       } 
-    },
-    //获取左侧父元素高度
-    getLeftBoxHeight(){
-      this.leftBox = $(".searchLeft").height();
-    }
-  },
-  mounted() {
-    this.$store.dispatch("req_search_data");//获取数据
-    this.getLeftBoxHeight();
-  },
-  watch:{
-    search_data(){
-    this.$nextTick(()=>{
-      //初始化滚动条
-      this.leftScroll = new Bscroll(".searchLeft",{
-      scrollY:true,
-      scrollbar: {
-        fade: true,
-        interactive: false // 1.8.0 新增
-      },
-      probeType: 1
-    })
-    this.rightScroll = new Bscroll(".searchRight",{
-      scrollY:true,
-      scrollbar: {
-        fade: true,
-        interactive: false // 1.8.0 新增
-      },
-      probeType: 3
-    })
-    //获取右侧滚动条滚动的位置
-    this.rightScroll.on("scroll",(pos)=>{
-      //实现左侧和右侧滚动条联动
-      for(let i=0;i<this.rightLiOffseTop.length;i++){
-        if((this.rightLiOffseTop[i+1])>-pos.y
-        && this.rightLiOffseTop[i]-350<-pos.y){
-          this.leftScroll.scrollToElement(this.leftLi[i])
-          this.clicked = i;
-        }else if(this.rightLiOffseTop[this.rightLiOffseTop.length-2]
-        < -pos.y){
-          this.leftScroll.scrollToElement(this.leftLi[this.rightLiOffseTop.length-1],300);
-          this.clicked = this.rightLiOffseTop.length-1
-        }
-      }
-    })
-    //获取右侧所有li的offsetTop
-    this.getRightLiOffseTop();
-    //获取左侧所有li的offsetTop
-    this.getLeftLiOffseTop();
-    })
-    }
+      clicked: 0,
+      rightLiOffsetTop: [47,474,902,1231,1560,1792,2121,2548,2877,3207, 3536, 3865, 4195, 4524, 4853, 5085, 5316, 5645], //右侧li 的 offsetTop
+      leftLiOffsetTop: [47,104,161,218,275,332,389,446,503,560, 617, 674, 731, 788, 845, 902, 959, 1016] //左侧li 的 offsetTop
+    };
   },
   computed: {
     ...mapState(["search_data"])
-    
+  },
+
+  mounted() {
+    let search_data = this.$store.dispatch("req_search_data");
+    this.$nextTick(() => {
+
+      //this.getRightLiOffsetTop();
+      //this.getLeftLiOffsetTop();
+
+      //右侧bscroll实列
+      if (!this.rightScroll) {
+        this.rightScroll = new Bscroll(this.$refs.rightWrapper, {
+          probeType: 3
+        });
+        //监听右侧列表滚动事件
+        this.rightScroll.on("scroll", pos => {
+          for (let i = 0; i < this.rightLiOffsetTop.length; i++) {
+            if (
+              -pos.y >= this.rightLiOffsetTop[i]-200 &&
+              -pos.y + 200 < this.rightLiOffsetTop[i + 1]
+            ) {
+              this.clicked = i; //左侧选中样式切换
+              this.leftScroll.scrollToElement(this.$refs.leftLi[this.clicked], 0);
+            } else if(this.rightLiOffsetTop[this.rightLiOffsetTop.length-2]
+        < -pos.y){
+          this.leftScroll.scrollToElement(this.$refs.leftLi[this.rightLiOffsetTop.length-1],0);
+          this.clicked = this.rightLiOffsetTop.length-1;
+        }
+          }
+        });
+      }
+
+      //左侧bscroll实列
+      if (!this.leftScroll) {
+        this.leftScroll = new Bscroll(this.$refs.leftWrapper, {
+          click:true,
+        });
+      }
+    });
+  },
+  methods: {
+    //获取rightScroll每个Li 的offsetTop
+    getRightLiOffsetTop() {
+      let rightLi = Array.from(this.$refs.rightLi);
+      for (let i = 0; i < rightLi.length; i++) {
+        this.rightLiOffsetTop.push(rightLi[i].offsetTop);
+      }
+    },
+    //获取leftScroll每个Li 的offsetTop
+    getLeftLiOffsetTop() {
+      for (let i = 0; i < this.$refs.leftLi.length; i++){
+        this.leftLiOffsetTop.push(this.$refs.leftLi[i].offsetTop);
+        //console.log(this.leftLiOffsetTop);
+      }
+    },
+    //切换路由
+    changeRouter(path) {
+      this.$router.replace(path);
+    },
+    //左侧菜单点击事件
+    currented(index) {
+      console.log("a");
+      
+      this.rightScroll.scrollToElement(this.$refs.rightLi[index],400)
+    }
   }
 };
 </script>
@@ -238,7 +222,7 @@ export default {
   background-color: rgb(250, 250, 250) !important;
   z-index: 997;
   overflow: hidden;
-  font-size: 14px;  
+  font-size: 14px;
 }
 .searchLeft > .searchLeft-content {
   /* padding-bottom: 30px; */
@@ -272,7 +256,7 @@ export default {
 }
 
 /* 右边 */
- .searchRight {
+.searchRight {
   background-color: #fff;
   width: 76%;
   z-index: 997;
@@ -283,14 +267,14 @@ export default {
   list-style: none;
   width: 100%;
 }
-.searchRigntContent .contentList:last-child{
-  padding-bottom: 50vh;
+.searchRigntContent .contentList:last-child {
+  padding-bottom: 20vh;
 }
 .searchRigntContent li {
   list-style: none;
   width: 100%;
   background-color: #fff;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 .searchRigntContent .searchRight-top {
   width: 100%;
@@ -335,7 +319,7 @@ export default {
   display: relative;
   display: block;
   width: 33%;
-  margin-bottom: 16px;
+  padding-bottom: 16px;
 }
 .iteamImg {
   text-align: center;

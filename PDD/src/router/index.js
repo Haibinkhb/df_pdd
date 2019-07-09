@@ -2,12 +2,19 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 //一级路由
-import Home from '../pages/Home/Home.vue'
-import Recommend from '../pages/Recommend/Recommend.vue'
-import Search from '../pages/Search/Search.vue'
-import Chat from '../pages/Chat/Chat.vue'
-import Mine from '../pages/Mine/Mine.vue'
-import loginPanel from '../pages/login/loginPanel.vue'
+// import Home       from '../pages/Home/Home.vue'
+// import Recommend  from '../pages/Recommend/Recommend.vue'
+// import Search     from '../pages/Search/Search.vue'
+// import Chat       from '../pages/Chat/Chat.vue'
+// import Mine       from '../pages/Mine/Mine.vue'
+// import loginPanel from '../pages/login/loginPanel.vue'
+
+const Home       = ()=> import ('./../pages/Home/Home.vue')
+const Recommend  = ()=> import ('../pages/Recommend/Recommend.vue')
+const Search     = ()=> import ('../pages/Search/Search.vue')
+const Chat       = ()=> import ('../pages/Chat/Chat.vue')
+const Mine       = ()=> import ('../pages/Mine/Mine.vue')
+const loginPanel = ()=> import ('../pages/login/loginPanel.vue')
 
 //主页板块二级路由
 import Hot from '../../src/pages/Home/Children/Hot/Hot.vue'

@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     changeRouter(path){
-            this.$router.replace(path);
+          this.$router.replace(path);
         },
     ...mapState(["userInfo"]),
     ...mapActions(["syncUserInfo"]),

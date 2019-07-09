@@ -69,7 +69,7 @@ export default {
           warpId: "xxid", //父布局的id (1.3.5版本支持传入dom元素)
           icon: "./static/mescroll/mescroll-empty.png", //图标,默认null,支持网络图
           tip: "暂无相关数据~" //提示
-        }
+        },
       },
       dataList: [] // 列表数据
     };
