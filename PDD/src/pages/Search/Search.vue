@@ -86,16 +86,12 @@ export default {
         this.rightScroll.on("scroll", pos => {
           for (let i = 0; i < this.rightLiOffsetTop.length; i++) {
             if (
-              -pos.y >= this.rightLiOffsetTop[i]-200 &&
-              -pos.y + 200 < this.rightLiOffsetTop[i + 1]
+              -pos.y >= this.rightLiOffsetTop[i]-100 &&
+              -pos.y < this.rightLiOffsetTop[i + 1] - 200
             ) {
               this.clicked = i; //左侧选中样式切换
               this.leftScroll.scrollToElement(this.$refs.leftLi[this.clicked], 0);
-            } else if(this.rightLiOffsetTop[this.rightLiOffsetTop.length-2]
-        < -pos.y){
-          this.leftScroll.scrollToElement(this.$refs.leftLi[this.rightLiOffsetTop.length-1],0);
-          this.clicked = this.rightLiOffsetTop.length-1;
-        }
+             }
           }
         });
       }
@@ -104,6 +100,7 @@ export default {
       if (!this.leftScroll) {
         this.leftScroll = new Bscroll(this.$refs.leftWrapper, {
           click:true,
+          probeType: 3,
         });
       }
     });
@@ -129,9 +126,8 @@ export default {
     },
     //左侧菜单点击事件
     currented(index) {
-      console.log("a");
-      
-      this.rightScroll.scrollToElement(this.$refs.rightLi[index],400)
+      this.rightScroll.scrollToElement(this.$refs.rightLi[index],0);
+      this.clicked = index;
     }
   }
 };
@@ -269,6 +265,7 @@ export default {
 }
 .searchRigntContent .contentList:last-child {
   padding-bottom: 20vh;
+  box-sizing: border-box;
 }
 .searchRigntContent li {
   list-style: none;

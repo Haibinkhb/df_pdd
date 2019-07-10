@@ -42,11 +42,21 @@ import MescrollVue from "mescroll.js/mescroll";
 import axios from "axios";
 
 export default {
+  props:{
+    closeScroll:Boolean,
+  },
+  mounted(){
+   this.$refs.mescroll.$el.style.overflow = "hidden";//关闭hot-shop组件的滚动
+  },
   data() {
     return {
       baseUrl: "http://mobile.yangkeduo.com/",
+      openScroll:true,
       mescroll: null, // mescroll实例对象
-      mescrollDown: {}, //下拉刷新的配置. (如果下拉刷新和上拉加载处理的逻辑是一样的,则mescrollDown可不用写了)
+      mescrollDown: {
+        callback:this.downCallback,
+        auto:false,
+      }, //下拉刷新的配置. (如果下拉刷新和上拉加载处理的逻辑是一样的,则mescrollDown可不用写了)
       mescrollUp: {
         // 上拉加载的配置.
         callback: this.upCallback, // 上拉回调,此处简写; 相当于 callback: function(page, mescroll) { }
@@ -92,7 +102,14 @@ export default {
     mescrollInit(mescroll) {
       this.mescroll = mescroll; // 如果this.mescroll对象没有使用到,则mescrollInit可以不用配置
     },
-    // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
+    // changHotScroll(openScroll){
+    //   this.openScroll != this.openScroll;
+    // },
+    downCallback(){  //下拉回调
+      this.$emit('HotScroll', this.openScroll);
+      this.mescroll.endByPage()
+    },
+       // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
     upCallback(page, mescroll) {
       // 联网请求
       axios
@@ -112,7 +129,9 @@ export default {
           // 数据渲染成功后,隐藏下拉刷新的状态
           this.$nextTick(() => {
             mescroll.endSuccess(arr.length);
+            
           });
+          
         })
         .catch(e => {
           // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
@@ -124,7 +143,14 @@ export default {
     MescrollVue
   },
   computed: {
-    ...mapState(["home_goodslist"])
+    ...mapState(["home_goodslist"]),
+  },
+  watch:{
+     closeScroll:function(){
+       if(!this.closeScroll){
+        this.$refs.mescroll.$el.style.overflow = "scroll"  
+      }
+    }
   },
   filters: {
     filterPrice(price) {
