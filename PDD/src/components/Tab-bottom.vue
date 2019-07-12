@@ -14,7 +14,7 @@
       </div>
     <div class="content" @click="changeRouter('/chat')">
       <img :src="this.$route.path.includes('/chat')?this.imgSrc[3].selected:this.imgSrc[3].normal" alt="">
-      <div :class="this.$route.path.includes('/chat')? 'tab-txt-selected':'tab-txt'" >聊天</div>
+      <div :class="this.$route.path.includes('/chat')? 'tab-txt-selected':'tab-txt'" >购物车</div>
     </div>
     <div class="content" @click="changeRouter('/mine')">
       <img :src="this.$route.path.includes('/mine')?this.imgSrc[4].selected:this.imgSrc[4].normal" alt="">

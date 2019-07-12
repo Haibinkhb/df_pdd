@@ -51,6 +51,7 @@ export default {
   data() {
     return {
       baseUrl: "http://mobile.yangkeduo.com/",
+      ScrollTop:0,
       openScroll:true,
       mescroll: null, // mescroll实例对象
       mescrollDown: {
@@ -105,8 +106,12 @@ export default {
     // changHotScroll(openScroll){
     //   this.openScroll != this.openScroll;
     // },
+    HotScroll(){
+      this.openScroll != this.openScroll;
+    },
     downCallback(){  //下拉回调
       this.$emit('HotScroll', this.openScroll);
+      this.ScrollTop = this.mescroll.getScrollTop();
       this.mescroll.endByPage()
     },
        // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10

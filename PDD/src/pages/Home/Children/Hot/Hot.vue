@@ -1,5 +1,5 @@
 <template>
-  <div class="hot" ref="hot" @scroll="hotScroll" v-on:HotScroll="changHotScroll">
+  <div class="hot" ref="hot" @scroll="hotScroll" @HotScroll="changHotScroll">
   
     <div class="swiper-container">
       <!-- {{homecarousel}} -->
@@ -46,9 +46,8 @@ export default {
     };
   },
   methods:{
-    changHotScroll:function(openHotScroll){
-      console.log(openHotScroll);
-      this.openHotScroll = openHotScroll;     
+    changHotScroll:function(HotScroll){
+      this.openHotScroll = HotScroll;     
     },
     hotScroll(e){//监听hot滚动
       this.scrollTop = this.$refs.hot.scrollTop;//获取滚动条在Y轴上的滚动距离
@@ -60,7 +59,10 @@ export default {
   },
   computed: {
     ...mapState(["homecarousel"]),
-    
+    HotScroll:function(){
+      console.log(this.changHotScroll);
+
+    }
   },
   mounted() {
     this.$nextTick(() => {
