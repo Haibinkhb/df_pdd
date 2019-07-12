@@ -239,4 +239,28 @@ router.get("/api/getUserInfo",(req,res,next)=>{
   }
   })
 })
+
+//添加商品至购物车
+router.post("api/addGoodsTocart", (req, res) => {
+  let userid = req.body.userid;
+  let goods = req.body.goods;
+
+  let goods_id = goods.goods_id;
+  let goods_name = goods.goods_name;
+  let thumb_url = goods.thumb_url;
+  let price = goods.price;
+
+  let sqlStr = "SELECT * FROM goods_cart WHERE goods_id = " + goods_id + " LIMIT 1";
+  connection.query(sqlStr, (error, results, fields) => {
+    if (error) {
+      console.log(error);
+    } else {
+      if(results){//商品存在，数量加一
+        console.log(results);
+        let buy_count = results.buy_count + 1;//数量加一
+        let updateSql = "UPDATE goods_cart SET buy_count = " + buy_count + " WHERE goods_id =  "+ goods_id ;
+      }
+    }
+  })
+})
 module.exports = router;

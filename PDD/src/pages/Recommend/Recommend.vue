@@ -17,7 +17,7 @@
                 {{goods.price|filterPrice}}
               </div>
               <div class="sales_tip">{{goods.sales_tip}}</div>
-              <div class="find_button">加入购物车</div>
+              <div class="find_button" @click="addGoodsToCart">加入购物车</div>
             </div>
           </div>
         </li>
@@ -31,6 +31,7 @@ import { mapState } from "vuex";
 import $ from "jquery"; //引入jquery..
 import axios from "axios";
 import MescrollVue from "mescroll.js/mescroll";
+import { Toast } from "mint-ui";
 
 export default {
   data() {
@@ -81,6 +82,20 @@ export default {
     next();
   },
   methods: {
+    //添加商品至购物车
+    addGoodsToCart(){
+      if(!this.userInfo.usersId){
+        Toast({
+            message: "请输登陆后执行次操作",
+            position: "center",
+            duration: 2000
+          });
+          this.$router.replace("/mine");
+      }else{
+        this.$store.dispatch("addGoodsTocart")
+      }
+        
+    },
     // mescroll组件初始化的回调,可获取到mescroll对象
     mescrollInit(mescroll) {
       this.mescroll = mescroll; // 如果this.mescroll对象没有使用到,则mescrollInit可以不用配置
@@ -114,7 +129,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["recommend_goods"])
+    ...mapState(["recommend_goods","userInfo"])
   },
   filters: {
     filterPrice(price) {
@@ -209,7 +224,7 @@ export default {
 .find_button {
   color: #e02e24;
   font-size: 10px;
-  background-color: rgba(255, 87, 6, 0.6);
+  /* background-color: rgba(255, 87, 6, 0.6); */
   border-radius: 2px;
   line-height: 18px;
 }

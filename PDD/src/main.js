@@ -8,6 +8,8 @@ import $ from 'jquery'
 import store from './store/index'
 import BScroll from 'better-scroll'
 import VueScroller from 'vue-scroller'
+ 
+import "./../static/js/Symobl/Symbol.js"
 
 Vue.use(VueScroller)
 
