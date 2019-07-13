@@ -1,7 +1,10 @@
 import ajax from './ajax'
+import { log } from 'util';
 
 //定义一个基础路径
 const base_url = "/api";
+console.log(base_url);
+
 
 //请求首页轮播图
 export const get_homecarousel = ()=>ajax(base_url + "/api/homecarousel");
@@ -29,3 +32,6 @@ export const userNameLogin = (userName,password,identifyingCode)=>ajax(base_url 
 
 //获取用户信息
 export const getUserInfo = ()=>ajax(base_url + "/api/getUserInfo");
+
+//添加商品至购物车
+export const addGoodsToCart = (goods)=>ajax("http://139.155.126.152:3000" + "/api/addGoodsToCart",goods,'POST');

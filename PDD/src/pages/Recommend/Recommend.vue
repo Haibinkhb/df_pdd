@@ -17,7 +17,7 @@
                 {{goods.price|filterPrice}}
               </div>
               <div class="sales_tip">{{goods.sales_tip}}</div>
-              <div class="find_button" @click="addGoodsToCart">加入购物车</div>
+              <div class="find_button" @click="AddGoodsToCart(goods)">加入购物车</div>
             </div>
           </div>
         </li>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import{addGoodsToCart} from "./../../api/index"
 import { mapState } from "vuex";
 import $ from "jquery"; //引入jquery..
 import axios from "axios";
@@ -83,17 +84,17 @@ export default {
   },
   methods: {
     //添加商品至购物车
-    addGoodsToCart(){
-      if(!this.userInfo.usersId){
-        Toast({
-            message: "请输登陆后执行次操作",
-            position: "center",
-            duration: 2000
-          });
-          this.$router.replace("/mine");
-      }else{
-        this.$store.dispatch("addGoodsTocart")
-      }
+    async AddGoodsToCart(goods){
+      // if(!this.userInfo.usersId){
+      //   Toast({
+      //       message: "请输登陆后执行此操作",
+      //       position: "center",
+      //       duration: 2000
+      //     });
+      //     this.$router.replace("/mine");
+      // }else{
+        await addGoodsToCart(goods);
+     // }
         
     },
     // mescroll组件初始化的回调,可获取到mescroll对象

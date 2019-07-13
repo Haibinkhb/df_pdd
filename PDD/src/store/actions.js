@@ -8,7 +8,7 @@ import {
 }from "./mutation-types"
 
 
-import { get_homecarousel,get_homenav, get_goodslist,get_recommend_goods,get_search_data,getUserInfo} from "../api/index"
+import { get_homecarousel,get_homenav, get_goodslist,get_recommend_goods,get_search_data,getUserInfo,addGoodsToCart} from "../api/index"
 // import {} from "../api/index"
 // import {} from "../api/index"
 
@@ -47,6 +47,12 @@ export default {
          let userInfo = await getUserInfo();
         console.log(userInfo);
         commit(SYNC_USER_INFO,{userInfo})
-    }
+    },
+
+      //添加商品至购物车
+//     async addGoodsToCart({commit},goods){
+//         console.log("action");
+//         await addGoodsToCart(goods)
+//    }
 
 }

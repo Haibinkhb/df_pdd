@@ -36,8 +36,11 @@ export default {
     return {
       count: 0, //购物车宝贝个数
       quantity: 1, //加入个购物车的单个宝贝的数量
-      checked: false //是否选中该商品
+      checked: false, //是否选中该商品
     };
+  },
+  methods:{
+    
   }
 };
 </script>

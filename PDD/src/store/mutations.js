@@ -4,7 +4,8 @@ HOME_NAV,
 HOME_GOODSLIST,
 RECOMMEND_GOODS,
 SEARCH_DATA,
-SYNC_USER_INFO
+SYNC_USER_INFO,
+ADD_GOODS_TO_CART,
 } from "./mutation-types"
 
 export default {
@@ -25,5 +26,5 @@ export default {
     },
     [SYNC_USER_INFO](state,{userInfo}){
         state.userInfo = userInfo
-    }
+    },
 }

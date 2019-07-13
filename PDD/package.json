@@ -16,6 +16,7 @@
     "ly-tab": "^2.1.2",
     "mescroll.js": "^1.4.1",
     "mint-ui": "^2.2.13",
+    "qs": "^6.7.0",
     "swiper": "^4.4.6",
     "vue": "^2.5.2",
     "vue-infinite-scroll": "^2.0.2",

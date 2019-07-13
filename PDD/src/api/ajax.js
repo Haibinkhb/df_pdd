@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { log } from 'util';
+
 
 function ajax(url = '', params = {}, type = 'GET') {
      // 1. 定义promise对象
@@ -20,6 +22,7 @@ function ajax(url = '', params = {}, type = 'GET') {
               // 2.4 发送get请求
               promise = axios.get(url)
         }else if(type.toUpperCase() === "POST"){
+
               promise = axios.post(url, params)
         }
         // 3. 返回请求的结果
@@ -32,5 +35,7 @@ function ajax(url = '', params = {}, type = 'GET') {
      })
      
 }
+
+
 
 export default ajax
