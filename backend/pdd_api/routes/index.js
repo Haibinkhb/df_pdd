@@ -242,6 +242,7 @@ router.get("/api/getUserInfo",(req,res,next)=>{
 
 //添加商品至购物车
 router.post("api/addGoodsTocart", (req, res) => {
+  res.send("sucsus")
   let userid = req.body.userid;
   let goods = req.body.goods;
 

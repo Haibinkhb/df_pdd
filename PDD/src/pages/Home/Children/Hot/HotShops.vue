@@ -1,6 +1,5 @@
 <template>
-  <div class="hotShops">
-      <mescroll-vue ref="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
+      <mescroll-vue ref="mescroll" class="hotShops" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
         <ul class="shopsList" v-if="dataList">
           <li class="shopItem" v-for="goods in dataList" :key="goods.goods_id">
             <a :href="baseUrl+goods.link_url" id="toShopA">
@@ -33,7 +32,6 @@
           </li>
         </ul>
       </mescroll-vue>
-  </div>
 </template>
 
 <script>
@@ -56,7 +54,7 @@ export default {
       mescroll: null, // mescroll实例对象
       mescrollDown: {
         callback:this.downCallback,
-        auto:false,
+        use:false,
       }, //下拉刷新的配置. (如果下拉刷新和上拉加载处理的逻辑是一样的,则mescrollDown可不用写了)
       mescrollUp: {
         // 上拉加载的配置.
@@ -168,23 +166,16 @@ export default {
 
 <style>
 .mescroll {
-  position: absolute;
+ 
   top: 0;
   bottom: 0;
-  height: auto;
+  height: inherit;
 }
 .mescroll-totop {
   display: block;
   margin-bottom: 20vh;
 }
 
-.hotShops {
-  height: 100vh;
-  width: 100%;
-  z-index: 1;
-  margin-bottom: 60px;
-  position: relative;
-}
 .shopsList {
   width: 100%;
   background-color: #f5f5f5;

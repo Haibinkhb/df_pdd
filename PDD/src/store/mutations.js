@@ -1,3 +1,4 @@
+import Vue from "vue"
 import{
 HOME_CAROUSEL,
 HOME_NAV,
@@ -5,7 +6,10 @@ HOME_GOODSLIST,
 RECOMMEND_GOODS,
 SEARCH_DATA,
 SYNC_USER_INFO,
-ADD_GOODS_TO_CART,
+GET_CART_DATA,
+CHECKED_ALL,
+IS_CHECKED,
+
 } from "./mutation-types"
 
 export default {
@@ -27,4 +31,33 @@ export default {
     [SYNC_USER_INFO](state,{userInfo}){
         state.userInfo = userInfo
     },
+    [GET_CART_DATA](state,{results}){
+        state.cart_data = results;
+    },
+    //全选购物车商品
+    [CHECKED_ALL](state,{isAllChecked}){
+        state.cart_data.forEach((goods,index)=>{
+            if(goods.isChecked){
+        
+                goods.isChecked = !isAllChecked;
+            }else{
+                Vue.set(goods,"isChecked",!isAllChecked)
+            }
+        })
+    },
+    //购物车单个商品选中
+    [IS_CHECKED](state,{index}){
+        let goods = state.cart_data;
+        for(let i=0; i<goods.length;i++){
+            if(goods[index].isChecked === undefined){
+                console.log(goods[index])
+                Vue.set(goods[index] ,"isChecked",true);
+            }else if(goods[index].isChecked === false || goods[index].isChecked === true){
+                goods[index].isChecked = !goods[index].isChecked
+            }else{
+                return
+            }
+        }
+    },
+   
 }

@@ -8,11 +8,11 @@ import Router from 'vue-router'
 // import Chat       from '../pages/Chat/Chat.vue'
 // import Mine       from '../pages/Mine/Mine.vue'
 // import loginPanel from '../pages/login/loginPanel.vue'
+import Chat from '../pages/Chat/Chat.vue'
 
 const Home       = ()=> import ('./../pages/Home/Home.vue')
 const Recommend  = ()=> import ('../pages/Recommend/Recommend.vue')
 const Search     = ()=> import ('../pages/Search/Search.vue')
-const Chat       = ()=> import ('../pages/Chat/Chat.vue')
 const Mine       = ()=> import ('../pages/Mine/Mine.vue')
 const loginPanel = ()=> import ('../pages/login/loginPanel.vue')
 

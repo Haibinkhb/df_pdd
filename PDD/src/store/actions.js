@@ -4,11 +4,14 @@ import {
     HOME_GOODSLIST,
     RECOMMEND_GOODS,
     SEARCH_DATA,
-    SYNC_USER_INFO
+    SYNC_USER_INFO,
+    GET_CART_DATA,
+    CHECKED_ALL,
+    IS_CHECKED,
 }from "./mutation-types"
 
 
-import { get_homecarousel,get_homenav, get_goodslist,get_recommend_goods,get_search_data,getUserInfo,addGoodsToCart} from "../api/index"
+import { get_homecarousel,get_homenav, get_goodslist,get_recommend_goods,get_search_data,getUserInfo,CartDate} from "../api/index"
 // import {} from "../api/index"
 // import {} from "../api/index"
 
@@ -49,10 +52,18 @@ export default {
         commit(SYNC_USER_INFO,{userInfo})
     },
 
-      //添加商品至购物车
-//     async addGoodsToCart({commit},goods){
-//         console.log("action");
-//         await addGoodsToCart(goods)
-//    }
-
+      //获取购物车商品数据
+    async getCartDate({commit}){
+         let results = await CartDate();
+         commit(GET_CART_DATA,{results})
+    },
+    //全选购物车商品
+    checkedAll({commit},isAllChecked){
+        commit(CHECKED_ALL,{isAllChecked})
+    },
+    //购物车单个商品选中
+    isChecked({commit},index){
+        commit(IS_CHECKED,{index})
+    },
+  
 }

@@ -35,3 +35,6 @@ export const getUserInfo = ()=>ajax(base_url + "/api/getUserInfo");
 
 //添加商品至购物车
 export const addGoodsToCart = (goods)=>ajax("http://139.155.126.152:3000" + "/api/addGoodsToCart",goods,'POST');
+
+//获取购物车商品数据
+export const CartDate = ()=>ajax("http://139.155.126.152:3000" + "/api/getCartDate",'GET');

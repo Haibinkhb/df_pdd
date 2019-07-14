@@ -53,7 +53,7 @@ export default {
       this.scrollTop = this.$refs.hot.scrollTop;//获取滚动条在Y轴上的滚动距离
       if(this.scrollTop + this.clientHeight >= this.scrollHeight+300 && this.openHotScroll == false){//判断滚动条是否滚动到底部
         this.closeScroll = false;//开启hot-shops组件上的滚动条
-        this.$refs.hot.style.overflow = "hidden"//关闭hot滚动
+        //this.$refs.hot.style.overflow = "hidden"//关闭hot滚动
       }
     }
   },
