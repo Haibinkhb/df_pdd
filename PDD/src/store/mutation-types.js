@@ -8,5 +8,6 @@ export const GET_CART_DATA = 'get_cart_data';
 export const CHECKED_ALL = 'checked_all';
 export const IS_CHECKED = 'is_checked';
 export const CALCUALATE_PRICE = 'calculate_price';
+export const DELETE_GOODS = 'delete_goods';
 
 

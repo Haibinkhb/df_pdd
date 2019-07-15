@@ -85,17 +85,12 @@ export default {
   methods: {
     //添加商品至购物车
     async AddGoodsToCart(goods){
-      // if(!this.userInfo.usersId){
-      //   Toast({
-      //       message: "请输登陆后执行此操作",
-      //       position: "center",
-      //       duration: 2000
-      //     });
-      //     this.$router.replace("/mine");
-      // }else{
-        await addGoodsToCart(goods);
-     // }
-        
+        let results = await addGoodsToCart(goods);
+        await Toast({
+           message: results.meessage,
+            position: "center",
+            duration: 1200
+        })
     },
     // mescroll组件初始化的回调,可获取到mescroll对象
     mescrollInit(mescroll) {

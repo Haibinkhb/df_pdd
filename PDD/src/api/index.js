@@ -38,3 +38,6 @@ export const addGoodsToCart = (goods)=>ajax("http://139.155.126.152:3000" + "/ap
 
 //获取购物车商品数据
 export const CartDate = ()=>ajax("http://139.155.126.152:3000" + "/api/getCartDate",'GET');
+
+//删除购物车商品数据
+export const deleteGoodsData = (goods)=>ajax("http://139.155.126.152:3000" + "/api/deleteGoods",goods,'POST');

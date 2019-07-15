@@ -9,8 +9,12 @@ SYNC_USER_INFO,
 GET_CART_DATA,
 CHECKED_ALL,
 IS_CHECKED,
+DELETE_GOODS,
 
 } from "./mutation-types"
+
+import {deleteGoodsData,CartDate} from "./../api/index"
+
 
 export default {
     [HOME_CAROUSEL](state,{homecarousel}){
@@ -41,23 +45,25 @@ export default {
         
                 goods.isChecked = !isAllChecked;
             }else{
-                Vue.set(goods,"isChecked",!isAllChecked)
+                Vue.set(goods,"isChecked",true)
             }
         })
     },
     //购物车单个商品选中
-    [IS_CHECKED](state,{index}){
-        let goods = state.cart_data;
-        for(let i=0; i<goods.length;i++){
-            if(goods[index].isChecked === undefined){
-                console.log(goods[index])
-                Vue.set(goods[index] ,"isChecked",true);
-            }else if(goods[index].isChecked === false || goods[index].isChecked === true){
-                goods[index].isChecked = !goods[index].isChecked
-            }else{
-                return
-            }
+    [IS_CHECKED](state,{goods}){
+        if(goods.isChecked){
+            goods.isChecked = !goods.isChecked;
+        }else{
+            Vue.set(goods,"isChecked",true)
         }
     },
-   
+    //删除购物车商品
+  async [DELETE_GOODS](state){
+        state.cart_data.forEach((goods,index)=>{
+        if(goods.isChecked){
+         deleteGoodsData(goods);
+        }
+    })
+  
+   }
 }

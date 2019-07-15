@@ -9,9 +9,9 @@
         <p class="shop_count">共{{cart_data.length}}件宝贝</p>
       </div>
       <div class="center">
-        <div class="shop_car_list" v-if="cart_data">
-          <div class="list_center" v-for="(goods,index) in cart_data" :key="index">
-            <div class="select_icon" @click="ischecked(index)">
+        <ul class="shop_car_list" v-if="cart_data">
+          <li class="list_center" v-for="(goods,index) in cart_data" :key="index">
+            <div class="select_icon" @click="ischecked(goods)">
               <svg v-if="!goods.isChecked" class="icon normal" aria-hidden="true">
                 <use xlink:href="#icon-xuanzhong" />
               </svg>
@@ -19,7 +19,7 @@
                 <use xlink:href="#icon-iconfontxuanzhong" />
               </svg>
             </div>
-            <a href="#" class="goods_img">
+            <a href="#" class="shop_img">
               <img :src="goods.thumb_url" />
             </a>
             <div class="goods_description">
@@ -27,14 +27,14 @@
               <div class="goods_price">
                 <span class="price">￥{{goods.price|filterPrice}}</span>
                 <div class="goods_quantity">
-                  <span class="reduce">-</span>
+                  <span class="reduce" @click="reduce(goods)">-</span>
                   <input type="text" v-model="goods.buy_count" />
-                  <span class="add">+</span>
+                  <span class="add" @click="add(goods)">+</span>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
       <div class="footer">
         <div class="allCheck" @click="allChecked">
@@ -49,10 +49,10 @@
         <div class="settle" v-if="operating">
           <span>合计</span>
           <span class="price">￥{{selcetedPrice|filterPrice}}</span>
-          <button>结算({{cart_data.length}})</button>
+          <button>结算</button>
         </div>
         <div v-else>
-          <button class="delete">删除</button>
+          <button class="delete" @click.stop="deleteGoods()">删除</button>
         </div>
       </div>
     </div>
@@ -61,14 +61,18 @@
 
 <script>
 import { mapState } from "vuex";
+import { MessageBox, Toast } from "mint-ui";
+import {CartDate} from "./../../api/index"
+
 export default {
+  inject: ["reload"],
   data() {
     return {
       count: 0, //购物车宝贝个数
       quantity: 1, //加入个购物车的单个宝贝的数量
       operating: true, //是否显示删除按钮
       isAllChecked: false, //是否全选购物车中的商品
-      selcetedPrice: 0 //购物车中选中商品的价格
+      selcetedPrice: 0, //购物车中选中商品的价格
     };
   },
   methods: {
@@ -76,11 +80,13 @@ export default {
       //是否显示删除按钮
       this.operating = !this.operating;
     },
-    ischecked(index) {
+    ischecked(goods) {
       //选中单个商品
-      this.$store.dispatch("isChecked", index);
+      this.$store.dispatch("isChecked", goods);
       // 计算价格
       this.calculatePrice();
+      //是否全选
+      this.isCheckedAll();
     },
     allChecked() {
       //全选
@@ -98,14 +104,69 @@ export default {
         }
       });
       this.selcetedPrice = tempePrice;
+    },
+    //是否全选
+    isCheckedAll() {
+      let flag = true;
+      this.cart_data.forEach((goods, index) => {
+        if (!goods.isChecked) {
+          flag = false;
+        }
+      });
+      this.isAllChecked = flag;
+    },
+    //删除商品
+    deleteGoods() {
+      this.cart_data.forEach(goods => {
+        if (goods.isChecked) {
+          MessageBox.confirm("您确定删除该商品吗?").then(action => {
+            if (action === "confirm") {
+              let results = this.$store.dispatch("deleteGoods");
+              
+              Toast({
+                message: "删除成功",
+                position: "center",
+                duration: 1200,
+              });
+            }
+          });
+        } else {
+          Toast({
+            message: "请选择您要删除的商品",
+            position: "center",
+            duration: 1200
+          });
+        }
+      });
+       this.cart_data = CartDate();
+    },
+    //商品数量减少
+    reduce(goods) {
+      if (goods.buy_count === 1) {
+        Toast({
+          message: "该商品不能再减少了哦 ~",
+          position: "center",
+          duration: 1200
+        });
+      } else {
+        goods.buy_count -= 1;
+        this.calculatePrice();
+      }
+    },
+    //商品数量增加
+    add(goods) {
+      goods.buy_count += 1;
+      this.calculatePrice();
     }
   },
   mounted() {
     //获取购物车数据
-    this.$store.dispatch("getCartDate");
+    this.$nextTick(() => {
+      this.$store.dispatch("getCartDate");
+    });
   },
   computed: {
-    ...mapState(["cart_data"])
+    ...mapState(["cart_data"]),
   },
   filters: {
     filterPrice(price) {
@@ -163,6 +224,7 @@ export default {
   margin: -12vh 5vw 1vh 5vw;
 }
 .list_center {
+  list-style: none;
   border-radius: 10px;
   box-sizing: border-box;
   width: 100%;
@@ -179,11 +241,11 @@ export default {
   width: 12%;
   align-self: center;
 }
-.goods_img {
+.shop_img {
   width: 28%;
   display: block;
 }
-.goods_img img {
+.shop_img img {
   width: 100%;
 }
 .goods_description {
@@ -196,9 +258,9 @@ export default {
 .goods_name {
   align-self: left;
   width: 98%;
-  overflow-x: hidden;
+  overflow: hidden;
   font-size: 14px;
-  height: 36px;
+  max-height: 36px;
   letter-spacing: 1px;
   color: rgb(51, 51, 51);
 }

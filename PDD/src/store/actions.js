@@ -8,6 +8,7 @@ import {
     GET_CART_DATA,
     CHECKED_ALL,
     IS_CHECKED,
+    DELETE_GOODS
 }from "./mutation-types"
 
 
@@ -62,8 +63,12 @@ export default {
         commit(CHECKED_ALL,{isAllChecked})
     },
     //购物车单个商品选中
-    isChecked({commit},index){
-        commit(IS_CHECKED,{index})
+    isChecked({commit},goods){
+        commit(IS_CHECKED,{goods})
     },
+    //购物车商品删除
+    deleteGoods({commit}){
+        commit(DELETE_GOODS)
+    }
   
 }
