@@ -3,30 +3,30 @@
     <div class="chooseMode">
       <div class="content">
         <div class="contentTop">
-          <div :class="{choose:loginWay}" @click="chooseLogin()">用户名登录</div>
-          <div :class="{choose:!loginWay}" @click="chooseLogin()">手机登录</div>
+          <div :class="{choose:loginWay}" @click="chooseLogin()">手机登录</div>
+          <div :class="{choose:!loginWay}" @click="chooseLogin()">用户名登录</div>
         </div>
         <form action>
-          <div class="userName" v-if="loginWay">
+          <div class="userName" v-if="!loginWay">
             <label>
-              <input type="text" placeholder="用户名" v-model="userName">
+              <input type="text" placeholder="用户名" v-model="userName" />
             </label>
             <label>
-              <input type="password" placeholder="密码" v-model="password">
+              <input type="password" placeholder="密码" v-model="password" />
             </label>
             <label class="verification">
-              <input type="text" placeholder="验证码" v-model="identifyingCode">
+              <input type="text" placeholder="验证码" v-model="identifyingCode" />
               <img
                 ref="captcha"
                 src="http://139.155.126.152:3000/api/getCaptcha"
                 class="verificationImg"
                 @click="changeCaptcha()"
-              >
+              />
             </label>
           </div>
-          <div class="phone_login" v-else-if="!loginWay">
+          <div class="phone_login" v-else-if="loginWay">
             <label for class="phone">
-              <input type="phone" placeholder="手机号" v-model="phone">
+              <input type="phone" placeholder="手机号" v-model="phone" />
               <button
                 v-if="!count"
                 class="getCode"
@@ -36,15 +36,14 @@
               <button disabled="disabled" v-else class="getCode">已发送({{count}}s)</button>
             </label>
             <label for>
-              <input class="phoneCode" type="tel" placeholder="验证码" v-model="phoneCode">
+              <input class="phoneCode" type="tel" placeholder="验证码" v-model="phoneCode" />
             </label>
           </div>
           <div class="loginButton">
             <button class="login_button" @click.prevent="login">登录</button>
-            <button class="back_button" @click="$router.back('/login')">返回</button>
+            <button class="back_button" @click.prevent="$router.back('/login')">返回</button>
           </div>
         </form>
-        
       </div>
     </div>
   </div>
@@ -57,7 +56,7 @@ import {
   userNameLogin
 } from "./../../api/index.js";
 import { mapActions, mapState } from "vuex";
-import { Toast } from "mint-ui";
+import { Toast, MessageBox } from "mint-ui";
 export default {
   data() {
     return {
@@ -71,14 +70,23 @@ export default {
     };
   },
   methods: {
-    changeRouter(path){
-          this.$router.replace(path);
-        },
+    changeRouter(path) {
+      this.$router.replace(path);
+    },
     ...mapState(["userInfo"]),
     ...mapActions(["syncUserInfo"]),
     //选择登录方式
     chooseLogin() {
       this.loginWay = !this.loginWay;
+      if (!this.loginWay) {
+        MessageBox.confirm(
+          "推荐您使用手机号码登录，用户名登陆当前存在严重问题..."
+        ).then(action => {
+          if (action === "confirm") {
+            this.loginWay = !this.loginWay
+          }
+        });
+      }
     },
     //切换验证码
     changeCaptcha() {
@@ -92,7 +100,7 @@ export default {
       }
       //更改按钮样式（倒计时）
       else if (this.validatePhone) {
-        this.count = 5;
+        this.count = 30;
         let intervalId = setInterval(() => {
           this.count--;
           if (this.count === 0) {
@@ -101,12 +109,11 @@ export default {
         }, 1000);
       }
       //获取验证码
-      let phoneCode = await get_phoneCode(this.phone);
-      console.log(phoneCode);
+       this.phoneCode = parseInt(await get_phoneCode(this.phone));
     },
     async login() {
       //登录模式
-      if (!this.loginWay) {
+      if (this.loginWay) {
         //手机号码登陆
         if (!this.phone) {
           Toast({
@@ -155,8 +162,14 @@ export default {
             });
           } else {
             console.log(results);
+            
             this.syncUserInfo(results);
-            await this.changeRouter('/mine');
+            await this.changeRouter("/mine");
+            Toast({
+            message: "登录成功",
+            position: "center",
+            duration: 3000
+          });
           }
         }
       } else {
@@ -204,9 +217,14 @@ export default {
             });
             this.changeCaptcha();
           } else {
-            console.log(results);
+            
             this.syncUserInfo(results);
-            await this.changeRouter('/mine');
+            await this.changeRouter("/mine");
+            Toast({
+            message: "登录成功",
+            position: "center",
+            duration: 3000
+          });
           }
         }
       }
@@ -267,8 +285,8 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #fff;
-   border: 1px solid #e6e6e6;
-   border-left: none;
+  border: 1px solid #e6e6e6;
+  border-left: none;
 }
 .userName label {
   width: 100%;
@@ -290,12 +308,12 @@ export default {
 .userName .verification input {
   outline: none;
   border: none;
- height: 100%;
- width: 60%;
+  height: 100%;
+  width: 60%;
 }
 .userName .verification img {
   height: 100%;
- width: 40%;
+  width: 40%;
   height: 100%;
   margin: 0;
   border: none;
@@ -308,11 +326,11 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #fff;
-   border: 1px solid #e6e6e6;
-   border-left: none;
+  border: 1px solid #e6e6e6;
+  border-left: none;
 }
 .phone_login label {
- width: 100%;
+  width: 100%;
   padding-left: 8vw;
   height: 8vh;
 }
@@ -325,7 +343,7 @@ export default {
   border-bottom: 1px solid #e6e6e6;
   outline: none;
 }
-.phone_login .phoneCode{
+.phone_login .phoneCode {
   border-bottom: none;
 }
 .phone {
@@ -349,7 +367,7 @@ export default {
 .phoneRight {
   color: #e02e24 !important;
 }
-.loginButton{
+.loginButton {
   width: 100vw;
   text-align: center;
   display: flex;
@@ -357,7 +375,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.login_button{
+.login_button {
   margin-bottom: 3vh;
   font-size: 16px;
   border: none;
@@ -368,7 +386,7 @@ export default {
   background-color: #e02e24;
   border-radius: 4px;
 }
-.back_button{
+.back_button {
   width: 80%;
   height: 6vh;
   font-size: 16px;

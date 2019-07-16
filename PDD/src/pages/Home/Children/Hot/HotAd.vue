@@ -17,7 +17,6 @@ export default {
         width: 100%;
         border-radius: 6px;
         z-index: 1;
-        position: relative;
     }
     .hotAd img{
         width: 100%;

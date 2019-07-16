@@ -58,10 +58,12 @@ export default {
         }
     },
     //删除购物车商品
-  async [DELETE_GOODS](state){
+    deleteGoods(state){
         state.cart_data.forEach((goods,index)=>{
         if(goods.isChecked){
-         deleteGoodsData(goods);
+        let index = state.cart_data.indexOf(goods);
+        state.cart_data.splice(index,1);
+        deleteGoodsData(goods);
         }
     })
   

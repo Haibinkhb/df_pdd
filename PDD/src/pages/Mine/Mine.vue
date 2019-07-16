@@ -37,6 +37,7 @@ export default {
   height: 100%;
 }
 .quit_box{
+  margin: 40vh auto;
   display: flex;
   justify-content: center;
   align-items: center;

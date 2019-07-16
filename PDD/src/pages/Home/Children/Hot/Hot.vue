@@ -1,31 +1,18 @@
 <template>
   <div class="hot" ref="hot" @scroll="hotScroll" @HotScroll="changHotScroll">
-  
-    <div class="swiper-container">
-      <!-- {{homecarousel}} -->
-      <div class="swiper-wrapper" v-if="homecarousel.length">
-        <div class="swiper-slide" v-for="(carousel,index) in homecarousel" :key="index">
-          <a :href="carousel.detail">
-            <img :src="carousel.imgurl" width="100%" />
-          </a>
-        </div>
-      </div>
-      <!-- 如果需要分页器 -->
-      <div class="swiper-pagination"></div>
-    </div>
+      <HotSwiper></HotSwiper>
       <HotNav></HotNav>
       <HotAd></HotAd>
-        {{openHotScroll}}
       <HotShops :closeScroll="closeScroll"></HotShops>
-  </div>
+</div>
 </template>
 
 <script>
 import HotNav from "./HotNav";
 import HotAd from "./HotAd";
 import HotShops from "./HotShops";
-import Swiper from "swiper";
-import "swiper/dist/css/swiper.min.css";
+import HotSwiper from "./HotSwiper";
+
 
 import { mapState } from "vuex";
 
@@ -33,7 +20,8 @@ export default {
   components: {
     HotNav,
     HotAd,
-    HotShops
+    HotShops,
+    HotSwiper,
   },
   data() {
     return {
@@ -58,7 +46,6 @@ export default {
     }
   },
   computed: {
-    ...mapState(["homecarousel"]),
     HotScroll:function(){
       console.log(this.changHotScroll);
 
@@ -66,24 +53,11 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.$store.dispatch("req_homecarousel");
       this.clientHeight = this.$refs.hot.clientHeight;
       this.scrollHeight = this.$refs.hot.scrollHeight;
     });
   },
   watch: {
-    homecarousel() {
-      this.$nextTick(() => {
-        new Swiper(".swiper-container", {
-          loop: true, // 循环模式选项
-          autoplay: true,
-          // 如果需要分页器
-          pagination: {
-            el: ".swiper-pagination"
-          }
-        });
-      });
-    },
     openHotScroll:function(){
       console.log(this.openHotScroll);
       
@@ -99,13 +73,11 @@ export default {
 .hot {
   width: 100vw;
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: scroll;
+  /* display: flex;
+  flex-direction: column; */
 }
-.swiper-container {
-  margin-top: 50px;
-  background-color: #fff;
-  z-index: 1;
-}
+
 </style>
 
 

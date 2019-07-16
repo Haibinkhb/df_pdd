@@ -10,13 +10,14 @@
             <div class="goods_name">
               <p>{{goods.goods_name}}</p>
             </div>
-            <div class="goods_tags">退货无忧</div>
+           <div class="center_box">
+              <div class="goods_tags">退货无忧</div>
+             <div class="sales_tip">{{goods.sales_tip}}</div>
+           </div>
             <div class="goods_bottom">
-              <div class="goods_price">
-                <span class="goods_price_logo">￥</span>
-                {{goods.price|filterPrice}}
+              <div class="goodsPrice">
+                <span class="goods_price_logo">￥</span>{{goods.price|filterPrice}}
               </div>
-              <div class="sales_tip">{{goods.sales_tip}}</div>
               <div class="find_button" @click="AddGoodsToCart(goods)">加入购物车</div>
             </div>
           </div>
@@ -32,8 +33,7 @@ import { mapState } from "vuex";
 import $ from "jquery"; //引入jquery..
 import axios from "axios";
 import MescrollVue from "mescroll.js/mescroll";
-import { Toast } from "mint-ui";
-
+import { Toast ,MessageBox} from "mint-ui";
 export default {
   data() {
     return {
@@ -85,12 +85,20 @@ export default {
   methods: {
     //添加商品至购物车
     async AddGoodsToCart(goods){
+      if(!this.userInfo.usersId){
+        MessageBox.confirm("您需要登录后才能执行此操作").then(action => {
+            if (action === "confirm") {
+              this.$router.replace('/loginPanel');
+            }
+          });
+      }else{
         let results = await addGoodsToCart(goods);
         await Toast({
            message: results.meessage,
             position: "center",
             duration: 1200
         })
+      }
     },
     // mescroll组件初始化的回调,可获取到mescroll对象
     mescrollInit(mescroll) {
@@ -199,6 +207,12 @@ export default {
   background-color: rgba(255, 87, 6, 0.08);
   font-size: 12px;
 }
+.center_box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1vw 1vh 0;
+}
 .goods_bottom {
   display: flex;
   justify-content: space-between;
@@ -208,21 +222,23 @@ export default {
 .goods_price_logo {
   color: #e02e24;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 18px;
 }
-.goods_bottom .goods_price {
+.goods_bottom .goodsPrice {
   font-weight: bolder;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 18px;
   color: #e02e24;
 }
 .find_button {
-  color: #e02e24;
-  font-size: 10px;
-  /* background-color: rgba(255, 87, 6, 0.6); */
+  color: #fff;
+  font-size: 14px;
+  background: linear-gradient(to right, #ff8400, #ff5100);
   border-radius: 2px;
   line-height: 18px;
+  padding: 0 1vw;
+  margin: 0 1vw 1vh 0;
 }
 .sales_tip {
   color: #9c9c9c;

@@ -86,11 +86,16 @@ export default {
         this.rightScroll.on("scroll", pos => {
           for (let i = 0; i < this.rightLiOffsetTop.length; i++) {
             if (
-              -pos.y >= this.rightLiOffsetTop[i]-100 &&
-              -pos.y < this.rightLiOffsetTop[i + 1] - 200
+              -pos.y >= this.rightLiOffsetTop[i] + 47&& 
+              -pos.y < this.rightLiOffsetTop[i + 1] 
             ) {
-              this.clicked = i; //左侧选中样式切换
+              this.clicked = i+1; //左侧选中样式切换
               this.leftScroll.scrollToElement(this.$refs.leftLi[this.clicked], 0);
+             }else if(-pos.y > this.rightLiOffsetTop[this.rightLiOffsetTop.length-2] +200&&
+              -pos.y < this.rightLiOffsetTop[this.rightLiOffsetTop.length-1]){
+                
+                  this.clicked = this.rightLiOffsetTop.length-1; //左侧选中样式切换
+                  this.leftScroll.scrollToElement(this.$refs.leftLi[this.clicked], 0);
              }
           }
         });
@@ -264,7 +269,7 @@ export default {
   width: 100%;
 }
 .searchRigntContent .contentList:last-child {
-  padding-bottom: 20vh;
+  padding-bottom: 40vh;
   box-sizing: border-box;
 }
 .searchRigntContent li {

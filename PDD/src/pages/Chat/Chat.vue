@@ -65,7 +65,6 @@ import { MessageBox, Toast } from "mint-ui";
 import {CartDate} from "./../../api/index"
 
 export default {
-  inject: ["reload"],
   data() {
     return {
       count: 0, //购物车宝贝个数
@@ -121,13 +120,13 @@ export default {
         if (goods.isChecked) {
           MessageBox.confirm("您确定删除该商品吗?").then(action => {
             if (action === "confirm") {
-              let results = this.$store.dispatch("deleteGoods");
-              
+              this.$store.commit("deleteGoods");
               Toast({
                 message: "删除成功",
                 position: "center",
                 duration: 1200,
               });
+              this.operating = !this.operating;
             }
           });
         } else {
@@ -138,7 +137,6 @@ export default {
           });
         }
       });
-       this.cart_data = CartDate();
     },
     //商品数量减少
     reduce(goods) {
@@ -222,6 +220,18 @@ export default {
   width: 90vw;
   background-color: #f8f8f8;
   margin: -12vh 5vw 1vh 5vw;
+  overflow: scroll;
+  max-height: 75vh;
+  min-width: 0;
+}
+
+.center::-webkit-scrollbar {
+   width: 0 !important;
+   height: 0 !important;
+}
+
+.shop_car_list{
+  height: 100%;
 }
 .list_center {
   list-style: none;

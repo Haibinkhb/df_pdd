@@ -67,8 +67,8 @@ export default {
         commit(IS_CHECKED,{goods})
     },
     //购物车商品删除
-    deleteGoods({commit}){
-        commit(DELETE_GOODS)
-    }
+    // deleteGoods({commit}){
+    //     commit(DELETE_GOODS)
+    // }
   
 }

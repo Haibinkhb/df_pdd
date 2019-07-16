@@ -1,37 +1,45 @@
 <template>
-      <mescroll-vue ref="mescroll" class="hotShops" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
-        <ul class="shopsList" v-if="dataList">
-          <li class="shopItem" v-for="goods in dataList" :key="goods.goods_id">
-            <a :href="baseUrl+goods.link_url" id="toShopA">
-              <div class="shopContent">
-                <div class="shopContent_left">
-                  <img :src="goods.hd_thumb_url" alt />
-                </div>
+  <div class="shopsList">
+    <mescroll-vue
+      ref="mescroll"
+      class="hotShops"
+      :down="mescrollDown"
+      :up="mescrollUp"
+      @init="mescrollInit"
+    >
+      <ul class="shopsList" v-if="dataList">
+        <li class="shopItem" v-for="goods in dataList" :key="goods.goods_id">
+          <a :href="baseUrl+goods.link_url" id="toShopA">
+            <div class="shopContent">
+              <div class="shopContent_left">
+                <img :src="goods.hd_thumb_url" alt />
+              </div>
 
-                <div class="shopContent_right">
-                  <div class="shopRight_top">{{goods.goods_name}}</div>
-                  <div class="shopRight_center"></div>
-                  <div class="shopRight_bottom">
-                    <div class="shoprRemarks">
-                      <span></span>
-                      <span>退货包运费</span>
-                    </div>
-                    <div class="shopPrice">
-                      <span class="priceLoge">￥</span>
-                      {{goods.price|filterPrice}}
-                      <span>{{goods.sales_tip}}</span>
-                      <div class="shopUser">
-                        <img src="../../imgs/shop_list/user1.jpg" alt />
-                        <img src="../../imgs/shop_list/user2.jpg" alt />
-                      </div>
+              <div class="shopContent_right">
+                <div class="shopRight_top">{{goods.goods_name}}</div>
+                <div class="shopRight_center"></div>
+                <div class="shopRight_bottom">
+                  <div class="shoprRemarks">
+                    <span></span>
+                    <span>退货包运费</span>
+                  </div>
+                  <div class="shopPrice">
+                    <span class="priceLoge">￥</span>
+                    {{goods.price|filterPrice}}
+                    <span>{{goods.sales_tip}}</span>
+                    <div class="shopUser">
+                      <img src="../../imgs/shop_list/user1.jpg" alt />
+                      <img src="../../imgs/shop_list/user2.jpg" alt />
                     </div>
                   </div>
                 </div>
               </div>
-            </a>
-          </li>
-        </ul>
-      </mescroll-vue>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </mescroll-vue>
+  </div>
 </template>
 
 <script>
@@ -40,21 +48,21 @@ import MescrollVue from "mescroll.js/mescroll";
 import axios from "axios";
 
 export default {
-  props:{
-    closeScroll:Boolean,
+  props: {
+    closeScroll: Boolean
   },
-  mounted(){
-   this.$refs.mescroll.$el.style.overflow = "hidden";//关闭hot-shop组件的滚动
+  mounted() {
+    this.$refs.mescroll.$el.style.overflow = "hidden"; //关闭hot-shop组件的滚动
   },
   data() {
     return {
       baseUrl: "http://mobile.yangkeduo.com/",
-      ScrollTop:0,
-      openScroll:true,
+      ScrollTop: 0,
+      openScroll: true,
       mescroll: null, // mescroll实例对象
       mescrollDown: {
-        callback:this.downCallback,
-        use:false,
+        callback: this.downCallback,
+        use: false
       }, //下拉刷新的配置. (如果下拉刷新和上拉加载处理的逻辑是一样的,则mescrollDown可不用写了)
       mescrollUp: {
         // 上拉加载的配置.
@@ -78,7 +86,7 @@ export default {
           warpId: "xxid", //父布局的id (1.3.5版本支持传入dom元素)
           icon: "./static/mescroll/mescroll-empty.png", //图标,默认null,支持网络图
           tip: "暂无相关数据~" //提示
-        },
+        }
       },
       dataList: [] // 列表数据
     };
@@ -104,15 +112,16 @@ export default {
     // changHotScroll(openScroll){
     //   this.openScroll != this.openScroll;
     // },
-    HotScroll(){
+    HotScroll() {
       this.openScroll != this.openScroll;
     },
-    downCallback(){  //下拉回调
-      this.$emit('HotScroll', this.openScroll);
+    downCallback() {
+      //下拉回调
+      this.$emit("HotScroll", this.openScroll);
       this.ScrollTop = this.mescroll.getScrollTop();
-      this.mescroll.endByPage()
+      this.mescroll.endByPage();
     },
-       // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
+    // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
     upCallback(page, mescroll) {
       // 联网请求
       axios
@@ -132,9 +141,7 @@ export default {
           // 数据渲染成功后,隐藏下拉刷新的状态
           this.$nextTick(() => {
             mescroll.endSuccess(arr.length);
-            
           });
-          
         })
         .catch(e => {
           // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
@@ -146,12 +153,12 @@ export default {
     MescrollVue
   },
   computed: {
-    ...mapState(["home_goodslist"]),
+    ...mapState(["home_goodslist"])
   },
-  watch:{
-     closeScroll:function(){
-       if(!this.closeScroll){
-        this.$refs.mescroll.$el.style.overflow = "scroll"  
+  watch: {
+    closeScroll: function() {
+      if (!this.closeScroll) {
+        this.$refs.mescroll.$el.style.overflow = "scroll";
       }
     }
   },
@@ -165,12 +172,6 @@ export default {
 </script>
 
 <style>
-.mescroll {
- 
-  top: 0;
-  bottom: 0;
-  height: inherit;
-}
 .mescroll-totop {
   display: block;
   margin-bottom: 20vh;
@@ -179,6 +180,7 @@ export default {
 .shopsList {
   width: 100%;
   background-color: #f5f5f5;
+  transform: scale(1);
 }
 .shopItem {
   background-color: #fff;
