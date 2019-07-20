@@ -19,7 +19,7 @@
           </div>
         </li>
       </ul>
-      <div class="progressBg">
+      <div class="progressBg" v-if="false">
         <div class="progress" :style="delProgress"></div>
       </div>
     </div>
@@ -144,6 +144,11 @@ export default {
 
 
 <style>
+.nav-items::-webkit-scrollbar { width: 0 !important }
+.nav-items { -ms-overflow-style: none; }
+.nav-items { overflow: -moz-scrollbars-none; }
+
+
 .hotNav {
   width: 100%;
   background-color: #fff;

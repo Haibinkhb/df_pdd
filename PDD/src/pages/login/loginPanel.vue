@@ -1,5 +1,5 @@
 <template>
-  <div class="searchPanel">
+  <div class="Panel">
     <div class="chooseMode">
       <div class="content">
         <div class="contentTop">
@@ -80,7 +80,7 @@ export default {
       this.loginWay = !this.loginWay;
       if (!this.loginWay) {
         MessageBox.confirm(
-          "推荐您使用手机号码登录，用户名登陆当前存在严重问题..."
+          "强烈推荐您使用手机号码登录，用户名登陆当前存在严重问题..."
         ).then(action => {
           if (action === "confirm") {
             this.loginWay = !this.loginWay
@@ -240,8 +240,8 @@ export default {
 </script>
 
 <style>
-.searchPanel {
-  width: 100vw;
+.Panel {
+  width: 100%;
   background-color: #f4f4f4;
   z-index: 10;
 }
@@ -257,13 +257,13 @@ export default {
 }
 .contentTop {
   width: 100%;
-  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 40px;
   color: #9c9c9c;
-  margin-top: 3vh;
+  padding-top: 3vh;
+  box-sizing: border-box;
   background-color: #fff;
 }
 .contentTop div {
@@ -278,7 +278,7 @@ export default {
   font-weight: bolder;
 }
 .userName {
-  width: 100vw;
+  width: 100%;
   margin: 3vh 0;
   display: flex;
   flex-direction: column;
@@ -289,6 +289,7 @@ export default {
   border-left: none;
 }
 .userName label {
+  box-sizing: border-box;
   width: 100%;
   padding-left: 8vw;
   height: 8vh;
@@ -304,6 +305,7 @@ export default {
 .userName .verification {
   display: flex;
   border: none;
+  outline: none;
 }
 .userName .verification input {
   outline: none;
@@ -319,7 +321,7 @@ export default {
   border: none;
 }
 .phone_login {
-  width: 100vw;
+  width: 100%;
   margin: 3vh 0;
   display: flex;
   flex-direction: column;
@@ -333,6 +335,7 @@ export default {
   width: 100%;
   padding-left: 8vw;
   height: 8vh;
+  box-sizing: border-box;
 }
 
 .phone_login label input {
@@ -355,7 +358,7 @@ export default {
 }
 .phone .getCode {
   font-size: 14px;
-  width: 40%;
+  width: 39%;
   height: 100%;
   border: none;
   outline: none;
@@ -368,7 +371,7 @@ export default {
   color: #e02e24 !important;
 }
 .loginButton {
-  width: 100vw;
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;

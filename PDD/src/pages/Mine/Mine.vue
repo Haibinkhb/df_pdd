@@ -1,6 +1,9 @@
 <template>
   <div class="mine" >
     <div v-if="userInfo.usersId">
+      <div class="toast">
+        <h5>其他功能待完善</h5>
+      </div>
       <div class="quit_box">
         <button class="quit_button" @click="quit()">退出登陆</button>
       </div>
@@ -31,17 +34,22 @@ export default {
 </script>
 
 <style>
+.toast{
+  text-align: center;
+  margin: 20vh auto;
+}
 .mine{
   background-color: #f4f4f4;
-  width: 100vw;
+  width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 .quit_box{
-  margin: 40vh auto;
+  margin: 20vh auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
 }
 .quit_button{
   width: 80%;

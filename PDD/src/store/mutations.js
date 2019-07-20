@@ -39,33 +39,33 @@ export default {
         state.cart_data = results;
     },
     //全选购物车商品
-    [CHECKED_ALL](state,{isAllChecked}){
+    checkedAll(state,isAllChecked){
         state.cart_data.forEach((goods,index)=>{
             if(goods.isChecked){
-        
-                goods.isChecked = !isAllChecked;
+                let index = state.cart_data.indexOf(goods);
+                state.cart_data[index].isChecked = !isAllChecked;
             }else{
                 Vue.set(goods,"isChecked",true)
             }
         })
     },
     //购物车单个商品选中
-    [IS_CHECKED](state,{goods}){
+    isChecked(state,goods){
         if(goods.isChecked){
-            goods.isChecked = !goods.isChecked;
+            let index = state.cart_data.indexOf(goods);
+            state.cart_data[index].isChecked = !goods.isChecked;
         }else{
+           // console.log(state.cart_data);
             Vue.set(goods,"isChecked",true)
         }
     },
     //删除购物车商品
-    deleteGoods(state){
-        state.cart_data.forEach((goods,index)=>{
-        if(goods.isChecked){
-        let index = state.cart_data.indexOf(goods);
-        state.cart_data.splice(index,1);
-        deleteGoodsData(goods);
-        }
-    })
-  
+    deleteGoods(state,temperArr){
+        temperArr.forEach((goods)=>{ 
+            goods.buy_count = 0;
+            let index = state.cart_data.indexOf(goods);
+            state.cart_data.splice(index,1);
+            deleteGoodsData(goods);
+        })
    }
 }

@@ -52,7 +52,7 @@
           <button>结算</button>
         </div>
         <div v-else>
-          <button class="delete" @click.stop="deleteGoods()">删除</button>
+          <button class="delete" @click="deleteGoods()">删除</button>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
 <script>
 import { mapState } from "vuex";
 import { MessageBox, Toast } from "mint-ui";
-import {CartDate} from "./../../api/index"
+import { CartDate } from "./../../api/index";
 
 export default {
   data() {
@@ -71,7 +71,7 @@ export default {
       quantity: 1, //加入个购物车的单个宝贝的数量
       operating: true, //是否显示删除按钮
       isAllChecked: false, //是否全选购物车中的商品
-      selcetedPrice: 0, //购物车中选中商品的价格
+      selcetedPrice: 0 //购物车中选中商品的价格
     };
   },
   methods: {
@@ -81,7 +81,7 @@ export default {
     },
     ischecked(goods) {
       //选中单个商品
-      this.$store.dispatch("isChecked", goods);
+      this.$store.commit("isChecked", goods);
       // 计算价格
       this.calculatePrice();
       //是否全选
@@ -89,7 +89,7 @@ export default {
     },
     allChecked() {
       //全选
-      this.$store.dispatch("checkedAll", this.isAllChecked);
+      this.$store.commit("checkedAll", this.isAllChecked);
       this.isAllChecked = !this.isAllChecked;
       // 计算价格
       this.calculatePrice();
@@ -116,27 +116,40 @@ export default {
     },
     //删除商品
     deleteGoods() {
+      //定义临时数组
+      let temperArr = [];
       this.cart_data.forEach(goods => {
         if (goods.isChecked) {
-          MessageBox.confirm("您确定删除该商品吗?").then(action => {
-            if (action === "confirm") {
-              this.$store.commit("deleteGoods");
-              Toast({
-                message: "删除成功",
-                position: "center",
-                duration: 1200,
-              });
-              this.operating = !this.operating;
-            }
-          });
-        } else {
-          Toast({
-            message: "请选择您要删除的商品",
-            position: "center",
-            duration: 1200
-          });
+          temperArr.push(goods);
         }
       });
+      if (temperArr.length) {
+        MessageBox.confirm("您确定删除该商品吗?").then(action => {
+          if (action === "confirm") {
+            this.$store.commit("deleteGoods", temperArr);
+            Toast({
+              message: "删除成功",
+              position: "center",
+              duration: 1200
+            });
+            //重新计算价格
+            this.calculatePrice();
+            //判断是否需要取消全选按钮的选中状态
+            if (this.selcetedPrice === 0) {
+              this.isAllChecked = false;
+              //清空临时数组
+              temperArr = [];
+              this.operating = !this.operating;
+            }
+          }
+        });
+      } else {
+        Toast({
+          message: "请选择您要删除的商品",
+          position: "center",
+          duration: 1200
+        });
+      }
     },
     //商品数量减少
     reduce(goods) {
@@ -164,7 +177,7 @@ export default {
     });
   },
   computed: {
-    ...mapState(["cart_data"]),
+    ...mapState(["cart_data"])
   },
   filters: {
     filterPrice(price) {
@@ -175,6 +188,9 @@ export default {
 </script>
 
 <style>
+.center::-webkit-scrollbar { width: 0 !important }
+.center { -ms-overflow-style: none; }
+.center { overflow: -moz-scrollbars-none; }
 .icon {
   width: 1em;
   height: 1em;
@@ -226,11 +242,11 @@ export default {
 }
 
 .center::-webkit-scrollbar {
-   width: 0 !important;
-   height: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-.shop_car_list{
+.shop_car_list {
   height: 100%;
 }
 .list_center {
@@ -322,6 +338,7 @@ export default {
 .settle {
   font-size: 15px;
   color: #333;
+  margin-left: auto;
 }
 .settle button {
   box-sizing: border-box;

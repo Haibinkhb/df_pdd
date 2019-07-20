@@ -58,17 +58,5 @@ export default {
          let results = await CartDate();
          commit(GET_CART_DATA,{results})
     },
-    //全选购物车商品
-    checkedAll({commit},isAllChecked){
-        commit(CHECKED_ALL,{isAllChecked})
-    },
-    //购物车单个商品选中
-    isChecked({commit},goods){
-        commit(IS_CHECKED,{goods})
-    },
-    //购物车商品删除
-    // deleteGoods({commit}){
-    //     commit(DELETE_GOODS)
-    // }
-  
+   
 }

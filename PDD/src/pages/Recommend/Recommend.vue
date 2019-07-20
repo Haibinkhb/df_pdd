@@ -1,6 +1,6 @@
 <template>
   <div class="recommend">
-    <mescroll-vue ref="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
+    <mescroll-vue ref="mescroll" class="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
       <ul class="recommend_goods" v-if="dataList">
         <li class="recommend_goods_list" v-for="goods in dataList" :key="goods.goods_id">
           <div class="goods">
@@ -151,13 +151,16 @@ export default {
   bottom: 0;
   height: auto;
 }
+.mescroll::-webkit-scrollbar { width: 0 !important }
+.mescroll { -ms-overflow-style: none; }
+.mescroll { overflow: -moz-scrollbars-none; }
 .mescroll-totop{
   display: block;
   margin-bottom: 20vh;
 }
 .recommend {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #fff;
 }
 .scroller {

@@ -64,7 +64,7 @@ export default {
       display: flex;
       height: 50px;
       min-height: 50px;
-      width: 100%;
+      width: 100% !important;
       z-index: 10;
       background-color: #fff;
     }

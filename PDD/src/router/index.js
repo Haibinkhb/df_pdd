@@ -40,6 +40,7 @@ export default new Router({
       name:'home',
       component: Home,
       meta:{showTabBootom:true},
+      redirect: '/home/hot' ,
       children:[
         { path: 'hot',component: Hot,name:'hot',meta:{showTabBootom:true}},
         { path: 'women_s',component: Women_s},
@@ -50,7 +51,7 @@ export default new Router({
         { path: 'mobile',component: Mobile},
         { path: 'men_s',component: Men_s},
         { path: 'electric',component: Electric},
-        { path: '/home',redirect: { name: 'hot' }},
+       
       ]
     },
     {

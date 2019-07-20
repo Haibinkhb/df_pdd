@@ -19,15 +19,24 @@ router.get('/', function (req, res, next) {
 
 router.get('/api/goodslist', (req, res, next) => {
   //sql查询语句SELECT * FROM pdd_goodslist
-  let sqlStr = "SELECT * FROM pdd_goodslist";
+  // let sqlStr = "SELECT * FROM pdd_goodslist";
+  // connection.query(sqlStr, function (error, results, fields) {
+  //   if (error) throw error;
+  //   res.json({ successCode: 200, results })
+  // })
+
+  //查询条件 第几条开始，查几条
+  let count = req.query.count || 10;
+  let offset = req.query.offset || 0;
+  //sql查询语句SELECT * FROM pdd_goodslist
+  let sqlStr = "SELECT * FROM pdd_goodslist LIMIT " + offset + "," + count;
+
   connection.query(sqlStr, function (error, results, fields) {
     if (error) throw error;
+
     res.json({ successCode: 200, results })
-    //console.log('The solution is: ', results);
+
   })
-
-
-
   // let tempArrAll = [];
   // for (let i = 0; i < recomened.length; i++) {
   //   //定义临时数组存放对应字段
@@ -60,7 +69,6 @@ router.get('/api/goodslist', (req, res, next) => {
 //获取首页轮播图
 router.get('/api/homecarousel', function (req, res, next) {
   let homecarousel = require('../public/data/homecasual.json').data;
-  //console.log(homecarousel);
   res.json({ successCode: 200, homecarousel })
 });
 
@@ -68,6 +76,7 @@ router.get('/api/homecarousel', function (req, res, next) {
 router.get('/api/homenav', (req, res, next) => {
   let homenav = require('../public/data/homenav.json').data;
   res.json({ successCode: 200, homenav })
+  
   //遍历取出iconurl
   //定义临时数据存放对应字段
   // let tempArrAll = [];
@@ -95,7 +104,7 @@ router.get('/api/recommend', (req, res, next) => {
   connection.query(sqlStr, function (error, results, fields) {
     if (error) throw error;
     res.json({ successCode: 200, results })
-    //console.log('The solution is: ', results);
+    
   })
 });
 //获取搜索页数据
@@ -133,7 +142,8 @@ router.get("/api/getPhoneCode", (req, res, next) => {
 //手机验证码登录
 router.post("/api/phoneCodeLogin", (req, res, next) => {
   let phone = req.body.phone;
-  let code = req.body.code;
+  let code = ""+req.body.code
+  
   //判断验证码是否正确
   if (users[phone] === code) {
 
@@ -177,7 +187,7 @@ router.post("/api/userNameLogin",(req, res, next)=>{
   let identifyingCode = req.body.identifyingCode;
   //判断图形验证码是否正确
   if(req.session.captcha.toLowerCase() !== identifyingCode.toLowerCase()){
-    console.log("11111");
+    
     res.json({errorCode:1,meessage:"验证码错误"})
     return 
   }else{
@@ -199,7 +209,6 @@ router.post("/api/userNameLogin",(req, res, next)=>{
           //将数据插入数据库
           addsql = "INSERT INTO pdd_userinfo(userName,userPass) VALUES (?,?)"
           connection.query(addsql, [userName, userPassword], (error, results, fields) => {
-            console.log(results);
             
             //从数据库查找用户并将数据返回给客户端
             sqlStr = "SELECT * FROM pdd_userinfo WHERE id = '" + results.insertId + "' LIMIT 1";
@@ -227,7 +236,7 @@ router.get("/api/getUserInfo",(req,res,next)=>{
       
       res.json({errorCode:1,meessage:"请求数据失败"})
     }else{
-    console.log(results);
+    
     if(!results[0]){
       delete req.session.usersId;
       res.json({errorCode:1,meessage:"请登录"})
@@ -241,26 +250,66 @@ router.get("/api/getUserInfo",(req,res,next)=>{
 })
 
 //添加商品至购物车
-router.post("api/addGoodsTocart", (req, res) => {
-  res.send("sucsus")
-  let userid = req.body.userid;
-  let goods = req.body.goods;
+router.post("/api/addGoodsToCart", (req, res) => {
+  let goods = req.body;
 
   let goods_id = goods.goods_id;
-  let goods_name = goods.goods_name;
-  let thumb_url = goods.thumb_url;
-  let price = goods.price;
+   let goods_name = goods.goods_name;
+   let thumb_url = goods.thumb_url;
+ let price = goods.price;
+ let link_url = goods.link_url;
+
 
   let sqlStr = "SELECT * FROM goods_cart WHERE goods_id = " + goods_id + " LIMIT 1";
   connection.query(sqlStr, (error, results, fields) => {
-    if (error) {
-      console.log(error);
-    } else {
-      if(results){//商品存在，数量加一
-        console.log(results);
-        let buy_count = results.buy_count + 1;//数量加一
-        let updateSql = "UPDATE goods_cart SET buy_count = " + buy_count + " WHERE goods_id =  "+ goods_id ;
+    if (!error) {
+      if(!results[0]){//商品不在购物
+        let insertSql = "INSERT INTO goods_cart(goods_id,goods_name,thumb_url,price,link_url) VALUES (?,?,?,?,?)";
+        let params = [goods_id,goods_name,thumb_url,price,link_url];
+        connection.query(insertSql,params,(error,results,fields)=>{
+            if(error){
+              res.json({errorCode:0,meessage:error});
+            }else{
+              res.json({successCode:200,meessage:"加入购物车成功"});
+            }
+        })
+      }else{//商品存在，数量加一
+        let buy_count = results[0].buy_count + 1;//数量加一
+        let updateSql = "UPDATE goods_cart SET buy_count = " + buy_count + " WHERE goods_id = " + goods_id ;
+        connection.query(updateSql,(error,results,fields)=>{
+          if(error){
+            res.json({errorCode:0,meessage:error});
+          }else{
+            res.json({successCode:200,meessage:"加入购物车成功"});
+          }
+        })
       }
+    }
+  })
+})
+
+//获取购物车商品数据
+router.get("/api/getCartDate",(req,res)=>{
+  let sqlSelect = "SELECT * FROM goods_cart"
+  connection.query(sqlSelect,(error,results,fields)=>{
+    if(!error){
+      res.json(results);
+    }else{
+      res.json({errorCode:0,meessage:error});
+    }
+  })
+})
+
+//删除购物车中商品
+router.post("/api/deleteGoods",(req,res)=>{
+  let goods_id = req.body.goods_id
+  let delSql = "DELETE FROM goods_cart WHERE goods_id = "+goods_id+" LIMIT 1;"
+  connection.query(delSql,(error,results,fields)=>{
+    if(!error){
+      res.json({successCode:200,meessage:"删除成功"});
+    }else{
+      res.json({errorCode:1,meessage:"删除失败"});
+
     }
   })
 })

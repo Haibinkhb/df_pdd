@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <ly-tab 
     v-model="selectedId"
     :items="items"
