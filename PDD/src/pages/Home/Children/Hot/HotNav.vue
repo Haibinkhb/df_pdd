@@ -150,7 +150,7 @@ export default {
 
 
 .hotNav {
-  width: 100%;
+   max-width:414px;
   background-color: #fff;
   z-index: 1;
 }
@@ -166,6 +166,10 @@ export default {
   display: flex;
   flex-direction: column;
   overflow-x: scroll;
+  word-break: keep-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+ 
 }
 .nav-items .item-content {
   display: flex;
@@ -192,7 +196,7 @@ export default {
   margin-bottom: 5px;
 }
 .item-container span {
-  font-size: 16px;
+  font-size: 12px;
   color: #666;
 }
 .progressBg {

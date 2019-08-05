@@ -291,7 +291,7 @@ export default {
 .userName label {
   box-sizing: border-box;
   width: 100%;
-  padding-left: 8vw;
+  padding-left: 8%;
   height: 8vh;
 }
 .userName label input {
@@ -333,7 +333,7 @@ export default {
 }
 .phone_login label {
   width: 100%;
-  padding-left: 8vw;
+  padding-left: 8%;
   height: 8vh;
   box-sizing: border-box;
 }

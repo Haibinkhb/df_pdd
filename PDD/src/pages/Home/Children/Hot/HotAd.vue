@@ -14,7 +14,7 @@ export default {
     .hotAd{
         background-color: #fff;
         margin: 5px 0;
-        width: 100%;
+        max-width:414px;
         border-radius: 6px;
         z-index: 1;
     }

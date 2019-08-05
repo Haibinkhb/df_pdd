@@ -60,15 +60,14 @@ export default {
     .tab-bottom{
       position: fixed;
       bottom: 0;
-      right: 0;
       display: flex;
       height: 50px;
       min-height: 50px;
-      width: 100% !important;
+      width: 100%;
+      max-width: 414px;
       z-index: 10;
       background-color: #fff;
     }
-
     .content{
       flex: 1;
       text-align: center

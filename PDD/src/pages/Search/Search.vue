@@ -69,14 +69,11 @@ export default {
   computed: {
     ...mapState(["search_data"])
   },
-
   mounted() {
     let search_data = this.$store.dispatch("req_search_data");
     this.$nextTick(() => {
-
       //this.getRightLiOffsetTop();
       //this.getLeftLiOffsetTop();
-
       //右侧bscroll实列
       if (!this.rightScroll) {
         this.rightScroll = new Bscroll(this.$refs.rightWrapper, {
@@ -96,11 +93,13 @@ export default {
                 
                   this.clicked = this.rightLiOffsetTop.length-1; //左侧选中样式切换
                   this.leftScroll.scrollToElement(this.$refs.leftLi[this.clicked], 0);
+             }else if(-pos.y>=0&&-pos.y<this.rightLiOffsetTop[0]){
+                this.clicked = 0; //左侧选中样式切换
+              this.leftScroll.scrollToElement(this.$refs.leftLi[this.clicked], 0);
              }
           }
         });
       }
-
       //左侧bscroll实列
       if (!this.leftScroll) {
         this.leftScroll = new Bscroll(this.$refs.leftWrapper, {
@@ -140,7 +139,6 @@ export default {
 
 <style>
 @import url("./icons/font/demo.css");
-
 /*
   URL为项目内调用字体的路径
 */
@@ -154,7 +152,6 @@ export default {
     url("//at.alicdn.com/t/font_1039363_bd4jyzhdddw.ttf") format("truetype"),
     url("//at.alicdn.com/t/font_1039363_bd4jyzhdddw.svg#iconfont") format("svg");
 }
-
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
@@ -162,8 +159,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 .serarch {
+  max-width: 414px;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -171,8 +168,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: #fff;
 }
 .searchTop {
+   max-width: 414px;
   border-bottom: 1px solid #ddd;
   width: 100vw;
   height: 8vh;
@@ -205,7 +204,6 @@ export default {
   margin-left: 5px;
   font-size: 18px;
 }
-
 .searchContent {
   width: 100%;
   height: 90%;
@@ -215,7 +213,6 @@ export default {
   overflow: hidden;
   margin-bottom: 60px;
 }
-
 /* 左边 */
 .searchContent .searchLeft {
   width: 24%;
@@ -255,7 +252,6 @@ export default {
   left: 0;
   background-color: #e02e24;
 }
-
 /* 右边 */
 .searchRight {
   background-color: #fff;

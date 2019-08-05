@@ -130,7 +130,8 @@ export default {
             Toast({
               message: "删除成功",
               position: "center",
-              duration: 1200
+              duration: 1200,
+              className:"Toast"
             });
             //重新计算价格
             this.calculatePrice();
@@ -147,7 +148,8 @@ export default {
         Toast({
           message: "请选择您要删除的商品",
           position: "center",
-          duration: 1200
+          duration: 1200,
+          className:"Toast"
         });
       }
     },
@@ -157,7 +159,8 @@ export default {
         Toast({
           message: "该商品不能再减少了哦 ~",
           position: "center",
-          duration: 1200
+          duration: 1200,
+          className:"Toast"
         });
       } else {
         goods.buy_count -= 1;
@@ -188,6 +191,10 @@ export default {
 </script>
 
 <style>
+.mint-msgbox{
+  max-width: 350px;
+}
+
 .center::-webkit-scrollbar { width: 0 !important }
 .center { -ms-overflow-style: none; }
 .center { overflow: -moz-scrollbars-none; }
@@ -202,15 +209,17 @@ export default {
   color: #ccc;
 }
 .shop_car {
-  width: 100vw;
+  max-width: 414px;
+  width: 100%;
   height: 100vh;
   z-index: 1;
 }
 .top {
   height: 25vh;
-  width: 100vw;
+  width: 100%;
+  max-width: 414px;
   background: linear-gradient(to right, #ff8400, #ff5100);
-  padding: 2vh 3vw;
+  padding: 4% 5%;
   box-sizing: border-box;
   color: #fff;
   z-index: 0;
@@ -233,9 +242,10 @@ export default {
 }
 
 .center {
-  width: 90vw;
+  width: 90%;
+  max-width: 414px;
   background-color: #f8f8f8;
-  margin: -12vh 5vw 1vh 5vw;
+  margin: -10vh 5% 1vh 5%;
   overflow: scroll;
   max-height: 75vh;
   min-width: 0;
@@ -244,6 +254,7 @@ export default {
 .center::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
+
 }
 
 .shop_car_list {
@@ -323,9 +334,9 @@ export default {
 .footer {
   position: fixed;
   bottom: 60px;
-  left: 0;
-  width: 100vw;
-  padding: 0 5vw 0 5vw;
+  width: 100%;
+  max-width: 414px;
+  padding: 0 15px;
   box-sizing: border-box;
   display: flex;
   align-items: center;

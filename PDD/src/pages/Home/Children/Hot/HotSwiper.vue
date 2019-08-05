@@ -59,6 +59,7 @@ export default {
 <style>
 .hot_swiper{
   margin-top: 50px;
+  max-width:414px;
 }
 .swiper-container {
   margin-top: 50px;

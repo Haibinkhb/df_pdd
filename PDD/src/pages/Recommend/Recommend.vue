@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" >
     <mescroll-vue ref="mescroll" class="mescroll" :down="mescrollDown" :up="mescrollUp" @init="mescrollInit">
       <ul class="recommend_goods" v-if="dataList">
         <li class="recommend_goods_list" v-for="goods in dataList" :key="goods.goods_id">
@@ -150,13 +150,13 @@ export default {
   top: 0;
   bottom: 0;
   height: auto;
+  max-width:414px;
 }
 .mescroll::-webkit-scrollbar { width: 0 !important }
 .mescroll { -ms-overflow-style: none; }
 .mescroll { overflow: -moz-scrollbars-none; }
 .mescroll-totop{
-  display: block;
-  margin-bottom: 20vh;
+    bottom: 10vh;
 }
 .recommend {
   width: 100%;

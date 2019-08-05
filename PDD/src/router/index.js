@@ -43,14 +43,14 @@ export default new Router({
       redirect: '/home/hot' ,
       children:[
         { path: 'hot',component: Hot,name:'hot',meta:{showTabBootom:true}},
-        { path: 'women_s',component: Women_s},
-        { path: 'underwear',component: Underwear},
-        { path: 'm_b',component: M_B},
-        { path: 'department',component: Department},
-        { path: 's_b',component: S_B},
-        { path: 'mobile',component: Mobile},
-        { path: 'men_s',component: Men_s},
-        { path: 'electric',component: Electric},
+        { path: 'women_s',component: Women_s,meta:{showTabBootom:true}},
+        { path: 'underwear',component: Underwear,meta:{showTabBootom:true}},
+        { path: 'm_b',component: M_B,meta:{showTabBootom:true}},
+        { path: 'department',component: Department,meta:{showTabBootom:true}},
+        { path: 's_b',component: S_B,meta:{showTabBootom:true}},
+        { path: 'mobile',component: Mobile,meta:{showTabBootom:true}},
+        { path: 'men_s',component: Men_s,meta:{showTabBootom:true}},
+        { path: 'electric',component: Electric,meta:{showTabBootom:true}},
        
       ]
     },

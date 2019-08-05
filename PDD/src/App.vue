@@ -19,18 +19,18 @@ export default {
     this.$store.dispatch("getUserInfo");
   },
   mounted() {
-    this.$nextTick(() => {
-      let clientWidth = document.documentElement.clientWidth;
-      if (clientWidth > 414) {
-        MessageBox({
-          title: "温馨提示",
-          message:
-            "检测到您当前可能正在使用pc端访问该网页，为了您能有更好的体验请打开浏览器的调试工具（通常是F12键）切换到手机模式访问",
-          showCancelButton: false
-        });
-      }
-    });
-  }
+  //   this.$nextTick(() => {
+  //     let clientWidth = document.documentElement.clientWidth;
+  //     if (clientWidth > 414) {
+  //       MessageBox({
+  //         title: "温馨提示",
+  //         message:
+  //           "检测到您当前可能正在使用pc端访问该网页，为了您能有更好的体验请打开浏览器的调试工具（通常是F12键）切换到手机模式访问",
+  //         showCancelButton: false
+  //       });
+  //     }
+  //   });
+   }
 };
 </script>
 

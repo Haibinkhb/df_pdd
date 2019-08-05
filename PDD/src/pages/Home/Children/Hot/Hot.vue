@@ -172,7 +172,7 @@ export default {
 
 <style>
 .hot{
-  width: 100%;
+  max-width:414px;
   height: 100%;
 }
 .mescroll::-webkit-scrollbar { width: 0 !important }
@@ -183,7 +183,7 @@ export default {
   margin-bottom: 20vh;
 }
 .shopsList {
-  width: 100%;
+  max-width:414px;
   height: 100%;
   background-color: #f5f5f5;
 }
